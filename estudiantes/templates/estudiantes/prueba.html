@@ -1,0 +1,85 @@
+{% extends 'estudiantes/base.html' %}
+
+{% block main_content %}
+{% load static %}
+
+<section class="perfil-header">
+    <h1>documentos</h1>
+    <p>Revisa tu documentos aquí.</p>
+</section>
+<form method="post" action="{% url 'prueba' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-page active" id="page1">
+        <div class="container-form">
+            <section id="datos-personales">
+                <h2>Datos Personales</h2>
+                <div>
+                    <label>Recibo de Pago 1:</label>
+                    <input type="file" name="recibo_pago_1">
+                </div>
+                <div>
+                    <label>Recibo de Pago 2:</label>
+                    <input type="file" name="recibo_pago_2">
+                </div>
+                <div>
+                    <label>Boleta de notas:</label>
+                    <input type="file" name="boleta_notas">
+                </div>
+            </section>
+            
+        </div>
+        <button type="button" class="btn btn-primary" onclick="nextPage()">Siguiente</button>
+    </div>
+</form>
+
+<script>
+    let currentPage = 1;
+    const totalPages = 2;
+
+
+    function mostrarCursos(semestre) {
+        var numCursos = document.getElementById(`num_cursos_${semestre}`).value;
+        for (let i = 1; i <= 8; i++) {
+            var cursoGroup = document.getElementById(`curso_group_${semestre}_${i}`);
+            if (i <= numCursos) {
+                cursoGroup.style.display = "block";
+            } else {
+                cursoGroup.style.display = "none";
+            }
+        }
+    }
+
+    function validarCreditos() {
+    const maxCreditos = 22;
+    const minCreditos = 10;
+    
+    let totalCreditosSemestre1 = 0;
+    let totalCreditosSemestre2 = 0;
+
+    // Calcular créditos para el primer semestre
+    for (let i = 1; i <= 8; i++) {
+        const cursoSelect1 = document.getElementById(`curso1_${i}`);
+        if (cursoSelect1 && cursoSelect1.value) {
+            const creditosCurso1 = parseInt(cursoSelect1.selectedOptions[0].dataset.creditos);
+            totalCreditosSemestre1 += creditosCurso1;
+        }
+    }
+
+    // Calcular créditos para el segundo semestre
+    for (let i = 1; i <= 8; i++) {
+        const cursoSelect2 = document.getElementById(`curso2_${i}`);
+        if (cursoSelect2 && cursoSelect2.value) {
+            const creditosCurso2 = parseInt(cursoSelect2.selectedOptions[0].dataset.creditos);
+            totalCreditosSemestre2 += creditosCurso2;
+        }
+    }
+
+
+    alert(`Te Matriculaste exitoriamente`);
+    return true;  // Si ambos semestres están correctos
+}
+
+    document.querySelector('form').onsubmit = validarCreditos;
+</script>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'estudiantes/base.html' %}
+
+{% block main_content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'estudiantes/css/curso.css' %}">
+<h1>Lista de Cursos</h1>
+<div class="table-responsive">
+    <table class="custom-table" border="1">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Créditos</th>
+                <th>Nivel</th>
+                <th>Ciclo</th>
+                <th>Pre-requisito</th>
+                <th>Vacantes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for curso in cursos %}
+            <tr>
+                <td>{{ curso.codigo_curso }}</td>
+                <td>{{ curso.nombre }}</td>
+                <td>{{ curso.creditos }}</td>
+                <td>{{ curso.nivel }}</td>
+                <td>{{ curso.ciclo }}</td>
+                <td>
+                    {% if curso.pre_requisito %}
+                        {{ curso.pre_requisito.nombre }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>{{ curso.vacantes }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Controles de paginación -->
+<div class="pagination">
+    <span class="step-links">
+        {% if cursos.has_previous %}
+            <a href="?page=1">&laquo; primera</a>
+            <a href="?page={{ cursos.previous_page_number }}">anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ cursos.number }} de {{ cursos.paginator.num_pages }}.
+        </span>
+
+        {% if cursos.has_next %}
+            <a href="?page={{ cursos.next_page_number }}">siguiente</a>
+            <a href="?page={{ cursos.paginator.num_pages }}">última &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+{% endblock %}

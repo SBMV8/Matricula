@@ -1,0 +1,37 @@
+{% extends 'administrativos/dash.html' %}
+
+{% block main_content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'administrativos/css/perfil.css' %}">
+<section class="perfil-header">
+    <h1>Perfil de {{ administrativo.nombres }}</h1>
+    <p>Revisa la información de tu cuenta a continuación.</p>
+</section>
+
+<div class="perfil-container">
+    <div class="perfil-card">
+        {% load static %}
+        <img src="{% static 'estudiantes/images/user.png' %}" alt="Foto de Perfil" class="perfil-foto">
+        <div class="perfil-info">
+            <h2 id="nombres">{{ administrativo.nombres }} {{ administrativo.apellidos }}</h2>
+            <p id="codigo_administrativo">{{ administrativo.codigo_administrativo }}</p>
+        </div>
+    </div>
+
+    <div class="perfil-details">
+        <h3>Descripción</h3>
+        <p>Ariana Grande, conocida mundialmente por su carrera musical, ha decidido dedicar parte de su tiempo libre a ayudar a estudiantes a través del proceso de matrícula. 
+            Agradecemos a Beyoncé
+        </p>
+
+        <h3>Redes Sociales</h3>
+        <div class="social-buttons">
+            <a href="#" class="social-button">Facebook</a>
+            <a href="#" class="social-button">Twitter</a>
+            <a href="#" class="social-button">LinkedIn</a>
+            <a href="#" class="social-button">Instagram</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'estudiantes/css/base.css' %}">
+    <title>Bienvenido a Matricula FIIS 😊</title>
+    <link rel="icon" type="image/png" href="{% static 'usuarios/img/tortuga.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+</head>
+<body>
+    <div class="sidebar">
+        <a href="{% url 'principal' %}" class="logo">
+            <img src="{% static 'usuarios/img/tortuga.png' %}" style="width: 2.5rem; height: 2.5rem; object-fit: contain; margin-right: 0.6rem; margin-left: 0.6rem;">
+            <div class="logo-name"><span>Blackboard</span></div>
+        </a>
+        <ul class="side-menu">
+            <li><a href="{%url 'principal'%}"><i class='bx bxs-bank'></i>Pagina Principal</a></li>
+            <li><a href="{%url 'perfil_admi'%}"><i class='bx bx-user'></i>Consejero</a></li>
+            <li><a href="{% url 'registrar_cursos' %}"><i class='bx bx-book'></i>Registrar Cursos</a></li>
+            <li><a href="{% url 'listar' %}"><i class='bx bx-book-add'></i>Revisar Matricula</a></li>
+            <li><a href="{%url 'registro_usuario'%}"><i class='bx bx-group'></i>Registrar Usuarios</a></li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="{%url 'logout_vista'%}" class="logout">
+                    <i class='bx bx-log-out-circle'></i>
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Busca aquí wawita...">
+                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="theme-toggle" hidden>
+            <label for="theme-toggle" class="theme-toggle"></label>
+            
+            <a href="#" class="profile">
+                <img src="">
+            </a>
+        </nav>
+        <main>
+            {% block main_content %}
+                
+            
+            {% endblock %}
+        </main>
+        <script src="{% static 'administrativos/js/dash.js' %}"></script>
+        <script src="{% static 'usuarios/js/ventana.js' %}"></script>
+</body>
+</html>

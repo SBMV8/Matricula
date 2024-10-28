@@ -1,0 +1,76 @@
+.table-responsive {
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table th, .custom-table td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.custom-table th {
+    background-color: #e0e0e0;
+    color: #333;
+    font-weight: bold;
+}
+
+.custom-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.custom-table tr:hover {
+    background-color: #ffa033;
+}
+
+.custom-table td {
+    color: #555;
+}
+
+.custom-table .action-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.custom-table .action-buttons button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.custom-table .action-buttons button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para formulario de filtro */
+.filter-form {
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+.filter-form label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.filter-form select {
+    padding: 5px;
+    font-size: 14px;
+}
+
+/* Opcional: estilo para mensajes vacíos */
+.custom-table .empty-row td {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}

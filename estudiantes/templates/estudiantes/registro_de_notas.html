@@ -1,0 +1,35 @@
+{% extends 'estudiantes/base.html' %}
+
+{% block main_content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'estudiantes/css/notas.css' %}">
+<h1>Registro de Notas</h1>
+<div class="table-responsive">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>Estudiante</th>
+                <th>Curso</th>
+                <th>Fecha de Aprobación</th>
+                <th>Nota</th>
+                <th>Aprobado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for curso_aprobado in cursos_aprobados %}
+            <tr>
+                <td>{{ curso_aprobado.estudiante }}</td>
+                <td>{{ curso_aprobado.curso }}</td>
+                <td>{{ curso_aprobado.fecha_aprobacion }}</td>
+                <td>{{ curso_aprobado.nota }}</td>
+                <td>{{ curso_aprobado.aprobado|yesno:"Sí,No" }}</td>
+            </tr>
+            {% empty %}
+            <tr class="empty-row">
+                <td colspan="5">No tienes cursos aprobados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

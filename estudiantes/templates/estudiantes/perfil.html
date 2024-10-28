@@ -1,0 +1,35 @@
+{% extends 'estudiantes/base.html' %}
+
+{% block main_content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'estudiantes/css/perfil.css' %}">
+<section class="perfil-header">
+    <h1>Perfil de {{ estudiante.nombres }}</h1>
+    <p>Revisa la información de tu cuenta a continuación.</p>
+</section>
+
+<div class="perfil-container">
+    <div class="perfil-card">
+        {% load static %}
+        <img src="{% static 'estudiantes/images/user.png' %}" alt="Foto de Perfil" class="perfil-foto">
+        <div class="perfil-info">
+            <h2 id="nombres">{{ estudiante.nombres }} {{ estudiante.apellidos }}</h2>
+            <p id="codigo_estudiante">{{ estudiante.codigo_estudiante }}</p>
+        </div>
+    </div>
+
+    <div class="perfil-details">
+        <h3>Descripción</h3>
+        <p>Estudiante de Ingeniería de Sistemas con un interés particular en desarrollo web y bases de datos. Comprometido con el aprendizaje continuo y la mejora de habilidades.</p>
+
+        <h3>Redes Sociales</h3>
+        <div class="social-buttons">
+            <a href="#" class="social-button">Facebook</a>
+            <a href="#" class="social-button">Twitter</a>
+            <a href="#" class="social-button">LinkedIn</a>
+            <a href="#" class="social-button">Instagram</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

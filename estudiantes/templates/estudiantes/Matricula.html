@@ -1,0 +1,210 @@
+{% extends 'estudiantes/base.html' %}
+
+{% block main_content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'estudiantes/css/matricula.css' %}">
+<section class="perfil-header">
+    <h1>Matricula</h1>
+    <p>Revisa tu matricula aquí.</p>
+</section>
+<form method="post" action="{% url 'matricula' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-page active" id="page1">
+        <div class="container-form">
+            <section id="datos-personales">
+                <h2>Datos Personales</h2>
+                <div class="mb-3">
+                    <label for="codigo" class="form-label">Código</label>
+                    <input type="text" value="{{ codigo }}" class="form-control" id="codigo" name="codigo" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" value="{{ nombre }}" class="form-control" id="nombre" name="nombre" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" value="{{ apellido }}" class="form-control" id="apellido" name="apellido" readonly>
+                </div>
+                <div>
+                    <label>Recibo de Pago 1:</label>
+                    <input type="file" name="recibo_pago_1">
+                </div>
+                <div>
+                    <label>Recibo de Pago 2:</label>
+                    <input type="file" name="recibo_pago_2">
+                </div>
+                <div>
+                    <label>Boleta de notas:</label>
+                    <input type="file" name="boleta_notas">
+                </div>
+            </section>
+
+            <section id="datos-matricula">
+                <h2>Datos Matrícula</h2>
+                <div class="mb-3">
+                    <label for="escuela" class="form-label">Nombre de la Escuela</label>
+                    <input type="text" class="form-control" id="escuela" name="escuela" required>
+                </div>
+                <div class="mb-3">
+                    <label for="plan" class="form-label">Plan de Estudios</label>
+                    <input type="text" class="form-control" id="plan" name="plan" maxlength="4" required>
+                </div>
+                <div class="mb-3">
+                    <label for="celular" class="form-label">Celular</label>
+                    <input type="tel" class="form-control" id="celular" name="celular" maxlength="15" required>
+                </div>
+                <div class="mb-3">
+                    <label for="recibo1" class="form-label">Número de Recibo 1° Semestre</label>
+                    <input type="text" class="form-control" id="recibo1" name="num_recibo_primero" required>
+                </div>
+                <div class="mb-3">
+                    <label for="monto1" class="form-label">Monto de Recibo 1° Semestre</label>
+                    <input type="number" class="form-control" id="monto1" name="monto_recibo_primero" step="0.01" required>
+                </div>
+                <div class="mb-3">
+                    <label for="recibo2" class="form-label">Número de Recibo 2° Semestre</label>
+                    <input type="text" class="form-control" id="recibo2" name="num_recibo_segundo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="monto2" class="form-label">Monto de Recibo 2° Semestre</label>
+                    <input type="number" class="form-control" id="monto2" name="monto_recibo_segundo" step="0.01" required>
+                </div>
+            </section>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="nextPage()">Siguiente</button>
+    </div>
+
+    <div class="form-page" id="page2">
+        <h2>Datos del Primer Semestre</h2>
+        <div class="seleccion_cursos">
+            <h3>Selecciona cuántos cursos deseas (Máximo 8)</h3>
+            <div class="form_group">
+                <label for="num_cursos_1">Número de cursos</label>
+                <select id="num_cursos_1" class="form_style" onchange="mostrarCursos(1)">
+                    <option value="0">Selecciona</option>
+                    {% for i in "12345678" %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {% for i in "12345678" %}
+            <div class="form_group curso_seleccion" id="curso_group_1_{{ forloop.counter }}" style="display: none;">
+                <label for="curso1_{{ forloop.counter }}">Curso {{ forloop.counter }}</label>
+                <select id="curso1_{{ forloop.counter }}" name="curso1_{{ forloop.counter }}" class="form_style">
+                    <option value="">Selecciona un curso</option>
+                    {% for curso in cursos_semestre1 %}
+                        <option value="{{ curso.codigo_curso }}" data-creditos="{{ curso.creditos }}">{{ curso.nombre }} - {{ curso.creditos }} créditos</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endfor %}
+        </div>
+
+        <h2>Datos del Segundo Semestre</h2>
+        <div class="seleccion_cursos">
+            <h3>Selecciona cuántos cursos deseas (Máximo 8)</h3>
+            <div class="form_group">
+                <label for="num_cursos_2">Número de cursos</label>
+                <select id="num_cursos_2" class="form_style" onchange="mostrarCursos(2)">
+                    <option value="0">Selecciona</option>
+                    {% for i in "12345678" %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {% for i in "12345678" %}
+            <div class="form_group curso_seleccion" id="curso_group_2_{{ forloop.counter }}" style="display: none;">
+                <label for="curso2_{{ forloop.counter }}">Curso {{ forloop.counter }}</label>
+                <select id="curso2_{{ forloop.counter }}" name="curso2_{{ forloop.counter }}" class="form_style">
+                    <option value="">Selecciona un curso</option>
+                    {% for curso in cursos_semestre2 %}
+                        <option value="{{ curso.codigo_curso }}" data-creditos="{{ curso.creditos }}">{{ curso.nombre }} - {{ curso.creditos }} créditos</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" class="btn btn-secondary" onclick="prevPage()">Anterior</button>
+        <button type="submit" class="btn btn-primary" onclick="validarCreditos()">Matricular</button>
+    </div>
+</form>
+
+<script>
+    let currentPage = 1;
+    const totalPages = 2;
+
+    function nextPage() {
+        if (currentPage < totalPages) {
+            document.getElementById(`page${currentPage}`).classList.remove('active');
+            currentPage++;
+            document.getElementById(`page${currentPage}`).classList.add('active');
+        }
+    }
+
+    function prevPage() {
+        if (currentPage > 1) {
+            document.getElementById(`page${currentPage}`).classList.remove('active');
+            currentPage--;
+            document.getElementById(`page${currentPage}`).classList.add('active');
+        }
+    }
+
+    function mostrarCursos(semestre) {
+        var numCursos = document.getElementById(`num_cursos_${semestre}`).value;
+        for (let i = 1; i <= 8; i++) {
+            var cursoGroup = document.getElementById(`curso_group_${semestre}_${i}`);
+            if (i <= numCursos) {
+                cursoGroup.style.display = "block";
+            } else {
+                cursoGroup.style.display = "none";
+            }
+        }
+    }
+
+    function validarCreditos() {
+    const maxCreditos = 22;
+    const minCreditos = 10;
+    
+    let totalCreditosSemestre1 = 0;
+    let totalCreditosSemestre2 = 0;
+
+    // Calcular créditos para el primer semestre
+    for (let i = 1; i <= 8; i++) {
+        const cursoSelect1 = document.getElementById(`curso1_${i}`);
+        if (cursoSelect1 && cursoSelect1.value) {
+            const creditosCurso1 = parseInt(cursoSelect1.selectedOptions[0].dataset.creditos);
+            totalCreditosSemestre1 += creditosCurso1;
+        }
+    }
+
+    // Calcular créditos para el segundo semestre
+    for (let i = 1; i <= 8; i++) {
+        const cursoSelect2 = document.getElementById(`curso2_${i}`);
+        if (cursoSelect2 && cursoSelect2.value) {
+            const creditosCurso2 = parseInt(cursoSelect2.selectedOptions[0].dataset.creditos);
+            totalCreditosSemestre2 += creditosCurso2;
+        }
+    }
+
+    // Verificar los créditos del primer semestre
+    if (totalCreditosSemestre1 < minCreditos || totalCreditosSemestre1 > maxCreditos) {
+        alert(`El total de créditos para el primer semestre es ${totalCreditosSemestre1}. Debe estar entre ${minCreditos} y ${maxCreditos}.`);
+        return false;
+    }
+
+    // Verificar los créditos del segundo semestre
+    if (totalCreditosSemestre2 < minCreditos || totalCreditosSemestre2 > maxCreditos) {
+        alert(`El total de créditos para el segundo semestre es ${totalCreditosSemestre2}. Debe estar entre ${minCreditos} y ${maxCreditos}.`);
+        return false;
+    }
+    alert(`Te Matriculaste exitoriamente`);
+    return true;  // Si ambos semestres están correctos
+}
+
+    document.querySelector('form').onsubmit = validarCreditos;
+</script>
+
+{% endblock %}
