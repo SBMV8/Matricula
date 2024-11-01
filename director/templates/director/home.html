@@ -1,0 +1,69 @@
+{% extends 'director/base.html' %}
+
+{% block main_content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'administrativos/css/home.css' %}">
+<!-- Bienvenida -->
+<section class="matricula-welcome">
+    <h2>Bienvenidos al Proceso de Matrícula 2024</h2>
+    <p>Bienvenido a la plataforma de matrícula. A continuación, podrás acceder a diferentes secciones relacionadas con tu proceso de inscripción.</p>
+</section>
+
+<!-- Misión y Visión -->
+<section class="matricula-mision-vision">
+    <div class="mision-vision-container">
+        <div class="mision">
+            <h3>Misión</h3>
+            <p>Formar profesionales competentes y comprometidos con el desarrollo de la sociedad, basándonos en principios éticos, científicos y humanísticos.</p>
+        </div>
+        <div class="vision">
+            <h3>Visión</h3>
+            <p>Ser una universidad líder en la región, reconocida por la excelencia académica y la contribución al desarrollo sostenible a nivel global.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Acciones del Estudiante -->
+<section class="matricula-actions">
+    <h2>Acciones disponibles</h2>
+    <ul class="matricula-options">
+        <li>
+            <i class='bx bx-check'></i>
+            <span class="info">
+                <h3>Ver cursos aprobados</h3>
+                <p>Consulta los cursos que ya has aprobado.</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bx-book-open'></i>
+            <span class="info">
+                <h3>Ver cursos disponibles</h3>
+                <p>Revisa los cursos que puedes matricular este ciclo.</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bx-pen'></i>
+            <span class="info">
+                <h3>Registrar matrícula</h3>
+                <p>Completa tu matrícula para el ciclo actual.</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bx-user'></i>
+            <span class="info">
+                <h3>Ver consejeros</h3>
+                <p>Conoce a los consejeros encargados de tu matrícula.</p>
+            </span>
+        </li>
+    </ul>
+</section>
+
+<!-- Descargar Instructivo -->
+<section class="matricula-instructivo">
+    <a download="Documento_Instructivo" href="../static/archivos/Documento_Instructivo.pdf" class="matricula-report">
+        <i class='bx bx-cloud-download'></i>
+        <span>Descargar Instructivo</span>
+    </a>
+</section>
+{% endblock %}
+

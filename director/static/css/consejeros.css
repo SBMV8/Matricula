@@ -1,0 +1,66 @@
+/* Sección del Encabezado de Consejeros */
+.consejeros-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.consejeros-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.consejeros-header p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* Grid de Consejeros */
+.consejeros-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+/* Tarjeta de cada consejero */
+.consejero-card {
+    background-color: white;
+    width: 250px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 1.5rem;
+}
+
+.consejero-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Foto de consejeros */
+.consejero-foto {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+/* Nombre del consejero */
+.consejero-card h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+/* Descripción del consejero */
+.consejero-card p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+}

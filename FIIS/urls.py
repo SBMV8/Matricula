@@ -24,6 +24,7 @@ from django.conf.urls.static import static
 from usuarios import views as usuarios_views
 from estudiantes import views as estudiantes_views
 from administrativos import views as administrativos_views
+from director import views as director_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -54,6 +55,13 @@ urlpatterns = [
     path('administrativo/registro_usuario/', administrativos_views.registro_usuario, name='registro_usuario'),
     path('administrativo/revisar_matriculas/', administrativos_views.lista_matriculas_view, name='listar'),
     path('administrativo/actualizar_matricula/<int:matricula_id>/', administrativos_views.actualizar_matricula, name='actualizar_matricula'),
+
+    path('director/index/', director_views.director_index, name='director_index'), 
+    path('director/logout_vista/', director_views.logout_vista, name='logout_vista'),  
+    path('director/base_director/', director_views.base_director, name='base_director'),  
+    path('director/principal/', director_views.principal, name='principal_director'),  
+    path('director/perfil/', director_views.perfil_director, name='perfil_director'),  
+    path('director/registro/', director_views.registro_usuario, name='registro'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

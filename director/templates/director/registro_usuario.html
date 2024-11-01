@@ -1,0 +1,149 @@
+{% extends 'director/base.html' %}
+
+{% block main_content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'administrativos/css/cursos.css' %}">
+<div class="container mt-5 d-flex">
+    <div class="form-container">
+        <form class="form" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <p class="form-title">Registrar Usuario</p>
+
+            <div class="input-container">
+                <input placeholder="Ingrese correo" type="email" name="correo" id="id_correo" required>
+            </div>
+
+            <div class="input-container">
+                <input placeholder="Ingrese la contraseña" type="password" name="password" id="id_password" required>
+            </div>
+
+            <div class="input-container">
+                <label for="id_rol">Rol:</label>
+                <select name="rol" id="id_rol" required>
+                    <option value="" selected>--Seleccionar--</option>
+                    {% for value, text in form.rol.field.choices %}
+                        <option value="{{ value }}">{{ text }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-container">
+                <input placeholder="Ingrese el código" type="text" name="codigo" id="id_codigo" required>
+            </div>
+
+            <div class="input-container">
+                <input placeholder="Ingrese los nombres" type="text" name="nombres" id="id_nombres" required>
+            </div>
+
+            <div class="input-container">
+                <input placeholder="Ingrese los apellidos" type="text" name="apellidos" id="id_apellidos" required>
+            </div>
+
+            <div class="input-container">
+                <input placeholder="Ingrese el celular" type="tel" name="telefono" id="id_telefono" required>
+            </div>
+
+           
+
+            <!-- Campos adicionales para Estudiantes -->
+            <div id="estudiantes-fields" style="display:none;">
+                <div class="input-container">
+                    <input placeholder="Ingrese la escuela" type="text" name="escuela" id="id_escuela">
+                </div>
+                <div class="input-container">
+                    <input placeholder="Ingrese su plan de estudios" type="text" name="plan_estudios" id="id_plan_estudios">
+                </div>
+                <div class="input-container">
+                    <input placeholder="Ingrese el nivel" type="number" name="nivel" id="id_nivel">
+                </div>
+                <div class="input-container">
+                    <input placeholder="Ingrese el ciclo" type="number" name="ciclo" id="id_ciclo">
+                </div>
+            </div>
+             <!-- Campos adicionales para Docentes -->
+             <div id="docente-fields" style="display:none;">
+                <div class="input-container">
+                    <input placeholder="Ingrese la escuela" type="text" name="escuela" id="id_escuela">
+                </div>
+
+            <button class="submit" type="submit">Registrar Usuario</button>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <h1 class="text-center mb-4">Listado de Usuarios</h1>
+        <table class="table table-striped table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                    <th>Código</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Escuela</th>
+                    <th>Teléfono</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.correo }}</td>
+                    <td>{{ usuario.rol }}</td>
+                    {% if usuario.rol == "estudiante" %}
+                        <td>{{ usuario.estudiante.codigo_estudiante }}</td>
+                        <td>{{ usuario.estudiante.nombres }}</td>
+                        <td>{{ usuario.estudiante.apellidos }}</td>
+                        <td>{{ usuario.estudiante.escuela }}</td>
+                        <td>{{ usuario.estudiante.telefono }}</td>
+                        
+                    {% elif usuario.rol == "docente" %}
+                        <td>{{ usuario.docente.codigo_docente }}</td>
+                        <td>{{ usuario.docente.nombres }}</td>
+                        <td>{{ usuario.docente.apellidos }}</td>
+                        <td>{{ usuario.docente.escuela }}</td>
+                        <td>{{ usuario.docente.telefono }}</td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No hay usuarios disponibles.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Mostrar/Ocultar campos adicionales dependiendo del rol seleccionado
+    const rolField = document.getElementById("id_rol");
+    const estudianteFields = document.getElementById("estudiantes-fields");
+    const docenteFields = document.getElementById("docente-fields");
+
+    rolField.addEventListener("change", function () {
+        if (rolField.value === "estudiante") {
+            estudianteFields.style.display = "block";
+        } else {
+            estudianteFields.style.display = "none";
+        }
+    });
+    rolField.addEventListener("change", function () {
+        if (rolField.value === "docente") {
+            docenteFields.style.display = "block";
+        } else {
+            docenteFields.style.display = "none";
+        }
+    });
+
+    if (rolField.value !== "Estudiante") {
+        estudianteFields.style.display = "none";
+    }
+    if (rolField.value !== "docente") {
+        estudianteFields.style.display = "none";
+    }
+</script>
+{% endblock %}

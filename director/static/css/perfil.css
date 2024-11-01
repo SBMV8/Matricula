@@ -1,0 +1,75 @@
+.perfil-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.perfil-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.perfil-header p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.perfil-container {
+    display: flex;
+    align-items: flex-start; /* Alinea los elementos en la parte superior */
+    gap: 2rem; /* Espacio entre los dos lados del perfil */
+    margin: 1rem 0;
+}
+
+.perfil-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    width: 250px; /* Ancho fijo para la tarjeta del usuario */
+    text-align: center; /* Centra el contenido de la tarjeta */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-foto {
+    width: 100px; /* Ancho fijo para la foto */
+    height: 100px; /* Alto fijo para la foto */
+    border-radius: 50%; /* Hace que la foto sea redonda */
+    object-fit: cover; /* Asegura que la imagen se ajuste al contenedor */
+}
+
+.perfil-info {
+    margin-top: 1rem;
+}
+
+.perfil-details {
+    flex: 1; /* Toma el espacio restante disponible */
+}
+
+.perfil-details h3 {
+    margin-top: 1rem;
+    color: #333;
+}
+
+.perfil-details p {
+    color: #666;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 1rem; /* Espacio entre los botones */
+    margin-top: 0.5rem;
+}
+
+.social-button {
+    background-color: #007BFF;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.social-button:hover {
+    background-color: #0056b3;
+}
