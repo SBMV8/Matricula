@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.core.paginator import Paginator
 from estudiantes.models import Curso, Matricula, CursoAprobado
 from .forms import RegistroUsuarioForm
-from usuarios.models import Estudiante, Administrativo, Usuario
+from usuarios.models import Estudiante, Administrativo, Usuario, Docente, Director
 from django.contrib import messages
 from django.http import JsonResponse
 # Create your views here.
@@ -27,20 +27,19 @@ def registro_usuario(request):
         form = RegistroUsuarioForm(request.POST)
         if form.is_valid():
             usuario = form.save()
-            # Campos adicionales
+            # Campos comunes
             codigo = form.cleaned_data.get('codigo')
             nombres = form.cleaned_data.get('nombres')
             apellidos = form.cleaned_data.get('apellidos')
             telefono = form.cleaned_data.get('telefono')
 
-            # Dependiendo del rol, creamos un Estudiante o Administrativo
+            # Creación según el rol
             if usuario.rol == 'estudiante':
                 escuela = form.cleaned_data.get('escuela')
                 plan_estudios = form.cleaned_data.get('plan_estudios')
                 nivel = form.cleaned_data.get('nivel')
                 ciclo = form.cleaned_data.get('ciclo')
-
-                # Crear el registro de estudiante
+                
                 Estudiante.objects.create(
                     usuario=usuario,
                     codigo_estudiante=codigo,
@@ -52,8 +51,7 @@ def registro_usuario(request):
                     nivel=nivel,
                     ciclo=ciclo
                 )
-            else:
-                # Crear el registro de administrativo
+            elif usuario.rol == 'administrativo':
                 Administrativo.objects.create(
                     usuario=usuario,
                     codigo_administrativo=codigo,
@@ -61,15 +59,35 @@ def registro_usuario(request):
                     apellidos=apellidos,
                     telefono=telefono
                 )
+            elif usuario.rol == 'director':
+                Director.objects.create(
+                    usuario=usuario,
+                    codigo_director=codigo,
+                    nombres=nombres,
+                    apellidos=apellidos,
+                    telefono=telefono
+                )
+            elif usuario.rol == 'docente':
+                escuela = form.cleaned_data.get('escuela')
+                
+                Docente.objects.create(
+                    usuario=usuario,
+                    codigo_docente=codigo,
+                    nombres=nombres,
+                    apellidos=apellidos,
+                    telefono=telefono,
+                    escuela=escuela
+                )
             
-            return redirect('registro_usuario')  
+            return redirect('registro_usuario')
     else:
         form = RegistroUsuarioForm()
+    
     usuarios = Usuario.objects.all()
     
     return render(request, 'administrativos/registro_usuario.html', {
         'form': form,
-        'usuarios': usuarios,  
+        'usuarios': usuarios,
     })
 
 def perfil_admi(request):
@@ -181,17 +199,31 @@ def editar_usuario(request, user_id):
             administrativo.apellidos = request.POST.get('apellidos', administrativo.apellidos)
             administrativo.telefono = request.POST.get('telefono', administrativo.telefono)
             administrativo.save()
-        usuario.save()
+        elif usuario.rol == 'director':
+            director = usuario.director
+            director.nombres = request.POST.get('nombres', director.nombres)
+            director.apellidos = request.POST.get('apellidos', director.apellidos)
+            director.telefono = request.POST.get('telefono', director.telefono)
+            director.save()
+        elif usuario.rol == 'docente':
+            docente = usuario.docente
+            docente.nombres = request.POST.get('nombres', docente.nombres)
+            docente.apellidos = request.POST.get('apellidos', docente.apellidos)
+            docente.telefono = request.POST.get('telefono', docente.telefono)
+            docente.escuela = request.POST.get('escuela', docente.escuela)
+            docente.save()
 
-        return redirect('registro_usuario')  
+        usuario.save()
+        return redirect('registro_usuario')
 
     # Datos para el formulario de edición
     data = {
         'usuario': usuario,
-        'nombres': usuario.estudiante.nombres if usuario.rol == 'estudiante' else usuario.administrativo.nombres,
+        'nombres': getattr(usuario, usuario.rol).nombres,
         'correo': usuario.correo,
         'rol': usuario.rol
     }
+
     if usuario.rol == 'estudiante':
         estudiante = usuario.estudiante
         data.update({
@@ -209,6 +241,21 @@ def editar_usuario(request, user_id):
             'codigo': administrativo.codigo_administrativo,
             'apellidos': administrativo.apellidos,
             'telefono': administrativo.telefono,
+        })
+    elif usuario.rol == 'director':
+        director = usuario.director
+        data.update({
+            'codigo': director.codigo_director,
+            'apellidos': director.apellidos,
+            'telefono': director.telefono,
+        })
+    elif usuario.rol == 'docente':
+        docente = usuario.docente
+        data.update({
+            'codigo': docente.codigo_docente,
+            'apellidos': docente.apellidos,
+            'telefono': docente.telefono,
+            'escuela': docente.escuela,
         })
 
     return render(request, 'administrativos/editar_usuario.html', {'data': data})
@@ -247,6 +294,22 @@ def obtener_usuario(user_id):
             'nombres': administrativo.nombres,
             'apellidos': administrativo.apellidos,
             'telefono': administrativo.telefono,
+        })
+
+    elif usuario.rol == 'director':
+        director = usuario.director
+        data.update({
+            'codigo': director.codigo_director,
+            'apellidos': director.apellidos,
+            'telefono': director.telefono,
+        })
+    elif usuario.rol == 'docente':
+        docente = usuario.docente
+        data.update({
+            'codigo': docente.codigo_docente,
+            'apellidos': docente.apellidos,
+            'telefono': docente.telefono,
+            'escuela': docente.escuela,
         })
 
     return JsonResponse(data)

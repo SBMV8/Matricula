@@ -58,6 +58,23 @@
                 </div>
             </div>
 
+            <!-- Campos adicionales para Director -->
+            <div id="director-fields" style="display:none;">
+                <div class="input-container">
+                    <input placeholder="Ingrese el código de director" type="text" name="codigo_director" id="id_codigo_director">
+                </div>
+            </div>
+
+            <!-- Campos adicionales para Docente -->
+            <div id="docente-fields" style="display:none;">
+                <div class="input-container">
+                    <input placeholder="Ingrese el código de docente" type="text" name="codigo_docente" id="id_codigo_docente">
+                </div>
+                <div class="input-container">
+                    <input placeholder="Ingrese la escuela" type="text" name="escuela" id="id_escuela">
+                </div>
+            </div>
+
             <button class="submit" type="submit">Registrar Usuario</button>
         </form>
     </div>
@@ -91,13 +108,23 @@
                         <td>{{ usuario.administrativo.nombres }}</td>
                         <td>{{ usuario.administrativo.apellidos }}</td>
                         <td>{{ usuario.administrativo.telefono }}</td>
+                    {% elif usuario.rol == "director" %}
+                        <td>{{ usuario.director.codigo_director }}</td>
+                        <td>{{ usuario.director.nombres }}</td>
+                        <td>{{ usuario.director.apellidos }}</td>
+                        <td>{{ usuario.director.telefono }}</td>
+                    {% elif usuario.rol == "docente" %}
+                        <td>{{ usuario.docente.codigo_docente }}</td>
+                        <td>{{ usuario.docente.nombres }}</td>
+                        <td>{{ usuario.docente.apellidos }}</td>
+                        <td>{{ usuario.docente.telefono }}</td>
                     {% endif %}
                     <td>
                         <a href="{% url 'editar_usuario' usuario.id %}">
                             <button type="button" class="btn-edit">Editar</button>
                         </a>
                         <button type="button" class="btn-delete" onclick="confirmDelete('{{ usuario.id }}')">Eliminar</button>
-                    </td> 
+                    </td>                    
                 </tr>
                 {% empty %}
                 <tr>
@@ -110,22 +137,21 @@
 </div>
 
 <script>
-    // Mostrar/Ocultar campos adicionales dependiendo del rol seleccionado
     const rolField = document.getElementById("id_rol");
     const estudianteFields = document.getElementById("estudiante-fields");
+    const directorFields = document.getElementById("director-fields");
+    const docenteFields = document.getElementById("docente-fields");
 
     rolField.addEventListener("change", function () {
-        if (rolField.value === "estudiante") {
-            estudianteFields.style.display = "block";
-        } else {
-            estudianteFields.style.display = "none";
-        }
+        estudianteFields.style.display = rolField.value === "estudiante" ? "block" : "none";
+        directorFields.style.display = rolField.value === "director" ? "block" : "none";
+        docenteFields.style.display = rolField.value === "docente" ? "block" : "none";
     });
 
-    // Inicialmente, ocultar los campos si no es estudiante
-    if (rolField.value !== "estudiante") {
-        estudianteFields.style.display = "none";
-    }
+    estudianteFields.style.display = rolField.value === "estudiante" ? "block" : "none";
+    directorFields.style.display = rolField.value === "director" ? "block" : "none";
+    docenteFields.style.display = rolField.value === "docente" ? "block" : "none";
 </script>
+
 <script src="{% static 'administrativos/js/usuario.js' %}"></script>
 {% endblock %}

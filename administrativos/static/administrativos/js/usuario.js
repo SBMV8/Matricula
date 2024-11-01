@@ -1,7 +1,7 @@
 function confirmDelete(userId) {
     if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
         fetch(`/administrativo/eliminar_usuario/${userId}/`, {
-            method: 'POST',
+            method: 'DELETE',  
             headers: {
                 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
             }

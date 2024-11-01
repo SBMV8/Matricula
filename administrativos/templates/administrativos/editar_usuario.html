@@ -50,7 +50,17 @@
             <label for="ciclo" class="form-label">Ciclo:</label>
             <input type="text" class="form-control" id="ciclo" name="ciclo" value="{{ data.ciclo }}" required>
         </div>
+        
+        {% elif data.rol == 'docente' %}
+        <div class="col-md-6">
+            <label for="escuela" class="form-label">Escuela:</label>
+            <input type="text" class="form-control" id="escuela" name="escuela" value="{{ data.escuela }}" required>
+        </div>
+
+        {% elif data.rol == 'director' %}
+        
         {% endif %}
+
 
         <div class="col-12">
             <button type="submit">Guardar Cambios</button>
