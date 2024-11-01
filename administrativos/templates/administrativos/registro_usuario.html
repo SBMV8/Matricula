@@ -3,6 +3,7 @@
 {% block main_content %}
 {% load static %}
 
+<link rel="stylesheet" href="{% static 'administrativos/css/botones.css' %}">
 <link rel="stylesheet" href="{% static 'administrativos/css/cursos.css' %}">
 <div class="container mt-5 d-flex">
     <div class="form-container">
@@ -72,6 +73,7 @@
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Teléfono</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -90,6 +92,12 @@
                         <td>{{ usuario.administrativo.apellidos }}</td>
                         <td>{{ usuario.administrativo.telefono }}</td>
                     {% endif %}
+                    <td>
+                        <a href="{% url 'editar_usuario' usuario.id %}">
+                            <button type="button" class="btn-edit">Editar</button>
+                        </a>
+                        <button type="button" class="btn-delete" onclick="confirmDelete('{{ usuario.id }}')">Eliminar</button>
+                    </td> 
                 </tr>
                 {% empty %}
                 <tr>
@@ -119,4 +127,5 @@
         estudianteFields.style.display = "none";
     }
 </script>
+<script src="{% static 'administrativos/js/usuario.js' %}"></script>
 {% endblock %}

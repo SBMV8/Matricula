@@ -55,6 +55,10 @@ urlpatterns = [
     path('administrativo/registro_usuario/', administrativos_views.registro_usuario, name='registro_usuario'),
     path('administrativo/revisar_matriculas/', administrativos_views.lista_matriculas_view, name='listar'),
     path('administrativo/actualizar_matricula/<int:matricula_id>/', administrativos_views.actualizar_matricula, name='actualizar_matricula'),
+    path('administrativo/editar_usuario/<int:user_id>/', administrativos_views.editar_usuario, name='editar_usuario'),
+    path('administrativo/eliminar_usuario/<int:user_id>/', administrativos_views.eliminar_usuario, name='eliminar_usuario'),
+    path('administrativo/obtener_usuario/<int:user_id>/',administrativos_views.obtener_usuario, name="obtener_usuario"),
+    path('administrativo/registro_notas/',administrativos_views.registro_notas, name="registro_notas"),
 
     path('director/index/', director_views.director_index, name='director_index'), 
     path('director/logout_vista/', director_views.logout_vista, name='logout_vista'),  

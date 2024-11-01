@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.core.paginator import Paginator
-from estudiantes.models import Curso
+from estudiantes.models import Curso, Matricula, CursoAprobado
 from .forms import RegistroUsuarioForm
 from usuarios.models import Estudiante, Administrativo, Usuario
-from estudiantes.models import Matricula, DocumentosMatricula
 from django.contrib import messages
+from django.http import JsonResponse
 # Create your views here.
 
 def administrativo_index(request):
@@ -21,7 +21,6 @@ def dash_admi(request):
 
 def principal(request):
     return render(request, 'administrativos/home.html')
-
 
 def registro_usuario(request):
     if request.method == 'POST':
@@ -159,3 +158,134 @@ def actualizar_matricula(request, matricula_id):
 
         matricula.save()
         return redirect('listar')
+    
+def editar_usuario(request, user_id):
+    usuario = get_object_or_404(Usuario, id=user_id)
+
+    if request.method == 'POST':
+        usuario.correo = request.POST.get('correo', usuario.correo)
+
+        if usuario.rol == 'estudiante':
+            estudiante = usuario.estudiante
+            estudiante.nombres = request.POST.get('nombres', estudiante.nombres)
+            estudiante.apellidos = request.POST.get('apellidos', estudiante.apellidos)
+            estudiante.telefono = request.POST.get('telefono', estudiante.telefono)
+            estudiante.escuela = request.POST.get('escuela', estudiante.escuela)
+            estudiante.plan_estudios = request.POST.get('plan_estudios', estudiante.plan_estudios)
+            estudiante.nivel = request.POST.get('nivel', estudiante.nivel)
+            estudiante.ciclo = request.POST.get('ciclo', estudiante.ciclo)
+            estudiante.save()
+        elif usuario.rol == 'administrativo':
+            administrativo = usuario.administrativo
+            administrativo.nombres = request.POST.get('nombres', administrativo.nombres)
+            administrativo.apellidos = request.POST.get('apellidos', administrativo.apellidos)
+            administrativo.telefono = request.POST.get('telefono', administrativo.telefono)
+            administrativo.save()
+        usuario.save()
+
+        return redirect('registro_usuario')  
+
+    # Datos para el formulario de edición
+    data = {
+        'usuario': usuario,
+        'nombres': usuario.estudiante.nombres if usuario.rol == 'estudiante' else usuario.administrativo.nombres,
+        'correo': usuario.correo,
+        'rol': usuario.rol
+    }
+    if usuario.rol == 'estudiante':
+        estudiante = usuario.estudiante
+        data.update({
+            'codigo': estudiante.codigo_estudiante,
+            'apellidos': estudiante.apellidos,
+            'telefono': estudiante.telefono,
+            'escuela': estudiante.escuela,
+            'plan_estudios': estudiante.plan_estudios,
+            'nivel': estudiante.nivel,
+            'ciclo': estudiante.ciclo,
+        })
+    elif usuario.rol == 'administrativo':
+        administrativo = usuario.administrativo
+        data.update({
+            'codigo': administrativo.codigo_administrativo,
+            'apellidos': administrativo.apellidos,
+            'telefono': administrativo.telefono,
+        })
+
+    return render(request, 'administrativos/editar_usuario.html', {'data': data})
+
+def eliminar_usuario(request, user_id):
+    usuario = get_object_or_404(Usuario, id=user_id)
+    if request.method == 'DELETE':
+        usuario.delete()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'fail'}, status=400)
+
+def obtener_usuario(user_id):
+    usuario = get_object_or_404(Usuario, id=user_id)
+    data = {
+        'id': usuario.id,
+        'correo': usuario.correo,
+        'rol': usuario.rol,
+    }
+
+    if usuario.rol == 'estudiante':
+        estudiante = usuario.estudiante
+        data.update({
+            'codigo': estudiante.codigo_estudiante,
+            'nombres': estudiante.nombres,
+            'apellidos': estudiante.apellidos,
+            'telefono': estudiante.telefono,
+            'escuela': estudiante.escuela,
+            'plan_estudios': estudiante.plan_estudios,
+            'nivel': estudiante.nivel,
+            'ciclo': estudiante.ciclo,
+        })
+    elif usuario.rol == 'administrativo':
+        administrativo = usuario.administrativo
+        data.update({
+            'codigo': administrativo.codigo_administrativo,
+            'nombres': administrativo.nombres,
+            'apellidos': administrativo.apellidos,
+            'telefono': administrativo.telefono,
+        })
+
+    return JsonResponse(data)
+
+def registro_notas(request):
+    if request.method == 'POST':
+        estudiante_id = request.POST.get('estudiante')
+        curso_id = request.POST.get('curso')
+        fecha_aprobacion = request.POST.get('fecha_aprobacion')
+        nota = request.POST.get('nota')
+
+        # Convertir nota a float
+        try:
+            nota = float(nota)  # Convertir la nota a float
+        except ValueError:
+            return render(request, 'administrativos/registro_notas.html', {
+                'estudiantes': Estudiante.objects.all(),
+                'cursos': Curso.objects.all(),
+                'error': 'La nota debe ser un número válido.'
+            })
+
+        # Obtener el estudiante y el curso
+        estudiante = Estudiante.objects.get(codigo_estudiante=estudiante_id)
+        curso = Curso.objects.get(codigo_curso=curso_id)
+
+        # Crear una nueva instancia de CursoAprobado
+        curso_aprobado = CursoAprobado(
+            estudiante=estudiante,
+            curso=curso,
+            fecha_aprobacion=fecha_aprobacion,
+            nota=nota
+        )
+        curso_aprobado.save()
+
+        return redirect('registro_notas')  
+
+    estudiantes = Estudiante.objects.all()  
+    cursos = Curso.objects.all()  
+    return render(request, 'administrativos/registro_notas.html', {
+        'estudiantes': estudiantes, 
+        'cursos': cursos
+    })
