@@ -58,18 +58,9 @@
                 </div>
             </div>
 
-            <!-- Campos adicionales para Director -->
-            <div id="director-fields" style="display:none;">
-                <div class="input-container">
-                    <input placeholder="Ingrese el código de director" type="text" name="codigo_director" id="id_codigo_director">
-                </div>
-            </div>
 
             <!-- Campos adicionales para Docente -->
             <div id="docente-fields" style="display:none;">
-                <div class="input-container">
-                    <input placeholder="Ingrese el código de docente" type="text" name="codigo_docente" id="id_codigo_docente">
-                </div>
                 <div class="input-container">
                     <input placeholder="Ingrese la escuela" type="text" name="escuela" id="id_escuela">
                 </div>
@@ -139,17 +130,14 @@
 <script>
     const rolField = document.getElementById("id_rol");
     const estudianteFields = document.getElementById("estudiante-fields");
-    const directorFields = document.getElementById("director-fields");
     const docenteFields = document.getElementById("docente-fields");
 
     rolField.addEventListener("change", function () {
         estudianteFields.style.display = rolField.value === "estudiante" ? "block" : "none";
-        directorFields.style.display = rolField.value === "director" ? "block" : "none";
         docenteFields.style.display = rolField.value === "docente" ? "block" : "none";
     });
 
     estudianteFields.style.display = rolField.value === "estudiante" ? "block" : "none";
-    directorFields.style.display = rolField.value === "director" ? "block" : "none";
     docenteFields.style.display = rolField.value === "docente" ? "block" : "none";
 </script>
 

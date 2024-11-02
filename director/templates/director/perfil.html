@@ -13,8 +13,8 @@
         {% load static %}
         <img src="{% static 'estudiantes/images/user.png' %}" alt="Foto de Perfil" class="perfil-foto">
         <div class="perfil-info">
-            <h2>Juan Pérez</h2>
-            <p>Código: 2023100001</p>
+            <h2 id="nombres">{{ director.nombres }} {{ director.apellidos }}</h2>
+            <p id="codigo_administrativo">{{ director.codigo_director }}</p>
         </div>
     </div>
 
