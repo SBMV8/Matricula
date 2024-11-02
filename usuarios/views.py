@@ -29,6 +29,9 @@ def login(request):
             elif usuario.rol == 'director':
                 request.session['codigo_director'] = administrativo.codigo_director
                 return redirect('director_index')
+            elif usuario.rol == 'docente':
+                request.session['codigo_docente'] = administrativo.codigo_docente
+                return redirect('consejero_index')
         except Usuario.DoesNotExist:
             messages.error(request, 'Credenciales incorrectas')
     
