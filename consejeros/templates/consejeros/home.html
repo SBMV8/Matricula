@@ -1,8 +1,8 @@
-{% extends 'administrativos/dash.html' %}
+{% extends 'consejeros/base.html' %}
 
 {% block main_content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'administrativos/css/home.css' %}">
+<link rel="stylesheet" href="{% static 'consejeros/css/home.css' %}">
 <!-- Bienvenida -->
 <section class="matricula-welcome">
     <h2>Bienvenidos al Proceso de Matrícula 2024</h2>
@@ -23,6 +23,41 @@
     </div>
 </section>
 
+<!-- Acciones del Estudiante -->
+<section class="matricula-actions">
+    <h2>Acciones disponibles</h2>
+    <ul class="matricula-options">
+        <li>
+            <i class='bx bx-check'></i>
+            <span class="info">
+                <h3>Ver cursos aprobados</h3>
+                <p>Consulta los cursos que ya has aprobado.</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bx-book-open'></i>
+            <span class="info">
+                <h3>Ver cursos disponibles</h3>
+                <p>Revisa los cursos que puedes matricular este ciclo.</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bx-pen'></i>
+            <span class="info">
+                <h3>Registrar matrícula</h3>
+                <p>Completa tu matrícula para el ciclo actual.</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bx-user'></i>
+            <span class="info">
+                <h3>Ver consejeros</h3>
+                <p>Conoce a los consejeros encargados de tu matrícula.</p>
+            </span>
+        </li>
+    </ul>
+</section>
+
 <!-- Descargar Instructivo -->
 <section class="matricula-instructivo">
     <a download="Documento_Instructivo" href="../static/archivos/Documento_Instructivo.pdf" class="matricula-report">
@@ -31,4 +66,3 @@
     </a>
 </section>
 {% endblock %}
-

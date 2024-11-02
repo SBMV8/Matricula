@@ -1,0 +1,72 @@
+{% extends 'administrativos/dash.html' %}
+
+{% block main_content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'administrativos/css/editUser.css' %}">
+
+<div class="form-container">
+    <h1>Editar Usuario</h1>
+    <form class="row g-3" method="POST">
+        {% csrf_token %}
+
+        <div class="col-md-6">
+            <label for="correo" class="form-label">Correo:</label>
+            <input type="email" class="form-control" id="correo" name="correo" value="{{ data.correo }}" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="nombres" class="form-label">Nombres:</label>
+            <input type="text" class="form-control" id="nombres" name="nombres" value="{{ data.nombres }}" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="apellidos" class="form-label">Apellidos:</label>
+            <input type="text" class="form-control" id="apellidos" name="apellidos" value="{{ data.apellidos }}" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="telefono" class="form-label">Teléfono:</label>
+            <input type="text" class="form-control" id="telefono" name="telefono" value="{{ data.telefono }}" required>
+        </div>
+
+        {% if data.rol == 'estudiante' %}
+        <div class="col-md-6">
+            <label for="escuela" class="form-label">Escuela:</label>
+            <input type="text" class="form-control" id="escuela" name="escuela" value="{{ data.escuela }}" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="plan_estudios" class="form-label">Plan de Estudios:</label>
+            <input type="text" class="form-control" id="plan_estudios" name="plan_estudios" value="{{ data.plan_estudios }}" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="nivel" class="form-label">Nivel:</label>
+            <input type="text" class="form-control" id="nivel" name="nivel" value="{{ data.nivel }}" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="ciclo" class="form-label">Ciclo:</label>
+            <input type="text" class="form-control" id="ciclo" name="ciclo" value="{{ data.ciclo }}" required>
+        </div>
+        
+        {% elif data.rol == 'docente' %}
+        <div class="col-md-6">
+            <label for="escuela" class="form-label">Escuela:</label>
+            <input type="text" class="form-control" id="escuela" name="escuela" value="{{ data.escuela }}" required>
+        </div>
+
+        {% elif data.rol == 'director' %}
+        
+        {% endif %}
+
+
+        <div class="col-12">
+            <button type="submit">Guardar Cambios</button>
+            <button href="{% url 'registro_usuario' %}">Cancelar</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

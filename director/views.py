@@ -52,7 +52,7 @@ def registro_usuario(request):
                 )
             elif usuario.rol == 'docente':
                 escuela = form.cleaned_data.get('escuela')
-                # Crear el registro de estudiante
+                # Crear el registro de docente
                 Docente.objects.create(
                     usuario=usuario,
                     codigo_docente=codigo,

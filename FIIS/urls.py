@@ -25,6 +25,7 @@ from usuarios import views as usuarios_views
 from estudiantes import views as estudiantes_views
 from administrativos import views as administrativos_views
 from director import views as director_views
+from consejeros import views as consejero_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -55,13 +56,28 @@ urlpatterns = [
     path('administrativo/registro_usuario/', administrativos_views.registro_usuario, name='registro_usuario'),
     path('administrativo/revisar_matriculas/', administrativos_views.lista_matriculas_view, name='listar'),
     path('administrativo/actualizar_matricula/<int:matricula_id>/', administrativos_views.actualizar_matricula, name='actualizar_matricula'),
+    path('administrativo/editar_usuario/<int:user_id>/', administrativos_views.editar_usuario, name='editar_usuario'),
+    path('administrativo/eliminar_usuario/<int:user_id>/', administrativos_views.eliminar_usuario, name='eliminar_usuario'),
+    path('administrativo/obtener_usuario/<int:user_id>/',administrativos_views.obtener_usuario, name="obtener_usuario"),
+    path('administrativo/registro_notas/',administrativos_views.registro_notas, name="registro_notas"),
 
+    #rutas para el rol director de escuela
     path('director/index/', director_views.director_index, name='director_index'), 
     path('director/logout_vista/', director_views.logout_vista, name='logout_vista'),  
     path('director/base_director/', director_views.base_director, name='base_director'),  
     path('director/principal/', director_views.principal, name='principal_director'),  
     path('director/perfil/', director_views.perfil_director, name='perfil_director'),  
     path('director/registro/', director_views.registro_usuario, name='registro'),
+
+    # Rutas para el rol de consejero
+    path('consejeros/index/', consejero_views.index_consejero, name='consejero_index'), 
+    path('consejeros/logout_vista/', consejero_views.logout_view, name='logout_vista'),  
+    path('consejeros/dash_admi/', consejero_views.dash_consejero, name='dash_consejero'),  
+    path('consejeros/principal/', consejero_views.principal, name='home_consejero'),  
+    path('consejeros/perfil_admi/', consejero_views.perfil_consejero, name='perfil_consejero'),  
+    path('consejeros/revisar_matriculas/', consejero_views.lista_matriculas_view, name='listar_c'),
+    path('consejeros/actualizar_matricula/<int:matricula_id>/', consejero_views.actualizar_matricula, name='actualizar_matricula'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

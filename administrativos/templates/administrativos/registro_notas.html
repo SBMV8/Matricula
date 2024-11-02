@@ -1,0 +1,49 @@
+{% extends 'administrativos/dash.html' %}
+
+{% block main_content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'administrativos/css/notas.css' %}">
+<div class="form-container">
+    <h1>Registro de Notas</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="col-md-6">
+            <label for="estudiante" class="form-label">Seleccionar Estudiante:</label>
+            <select class="form-control" id="estudiante" name="estudiante" required>
+                <option value="">Seleccione un estudiante</option>
+                {% for estudiante in estudiantes %}
+                    <option value="{{ estudiante.codigo_estudiante }}">{{ estudiante.nombres }} {{ estudiante.apellidos }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="curso" class="form-label">Seleccionar Curso:</label>
+            <select class="form-control" id="curso" name="curso" required>
+                <option value="">Seleccione un curso</option>
+                {% for curso in cursos %}
+                    <option value="{{ curso.codigo_curso }}">{{ curso.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="fecha_aprobacion" class="form-label">Fecha de Aprobación:</label>
+            <input type="date" class="form-control" id="fecha_aprobacion" name="fecha_aprobacion" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="nota" class="form-label">Nota:</label>
+            <input type="number" class="form-control" id="nota" name="nota" step="0.01" min="1" max="20" required>
+        </div>
+
+        <div class="col-12">
+            <button type="submit">Registrar Nota</button>
+            <button href="{% url 'registro_notas' %}">Cancelar</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+.table-responsive {
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table th, .custom-table td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.custom-table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.custom-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.custom-table tr:hover {
+    background-color: #ffa033;
+}
+
+.custom-table td {
+    color: #555;
+}
+
+/* Opcional: estilo para mensajes vacíos */
+.custom-table .empty-row td {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
