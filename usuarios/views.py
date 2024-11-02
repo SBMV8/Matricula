@@ -27,7 +27,8 @@ def login(request):
                 request.session['codigo_administrativo'] = administrativo.codigo_administrativo
                 return redirect('administrativo_index')  # Cambia esto por la URL de la vista de administrativos
             elif usuario.rol == 'director':
-                request.session['codigo_director'] = administrativo.codigo_director
+                director = Director.objects.get(usuario=usuario)
+                request.session['codigo_director'] = director.codigo_director
                 return redirect('director_index')
         except Usuario.DoesNotExist:
             messages.error(request, 'Credenciales incorrectas')
