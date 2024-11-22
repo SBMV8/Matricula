@@ -76,11 +76,24 @@ def registro_de_notas_view(request):
     
     return render(request, 'estudiantes/registro_de_notas.html', {'cursos_aprobados': cursos_aprobados})
 
+def simular_pago(request):
+    success_message = None
 
+    if request.method == "POST":
+        # Captura los datos enviados (validación básica)
+        card_number = request.POST.get("card_number")
+        card_name = request.POST.get("card_name")
+        expiry_date = request.POST.get("expiry_date")
+        cvv = request.POST.get("cvv")
 
+        # Simulación de validación (puedes agregar lógica adicional)
+        if len(card_number) == 16 and len(cvv) == 3:
+            success_message = "¡Pago realizado con éxito!"
+        else:
+            success_message = "¡Datos Incorrectos!"
 
+    return render(request, "estudiantes/pago.html", {"success": success_message})
 
-from django.db import transaction
 
 
 def matricula_view(request):

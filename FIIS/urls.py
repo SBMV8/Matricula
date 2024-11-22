@@ -42,6 +42,7 @@ urlpatterns = [
     path('estudiante/perfil/', estudiantes_views.perfil, name='perfil'), 
     path('estudiante/consejeros/', estudiantes_views.consejeros, name='consejeros'), 
     path('estudiante/cursos/', estudiantes_views.cursos_view, name='cursos'),
+    path("estudiante/pago/", estudiantes_views.simular_pago, name="pago"),
     path('estudiante/registro-de-notas/', estudiantes_views.registro_de_notas_view, name='registro_de_notas'),
     path('estudiante/matricula/', estudiantes_views.matricula_view, name='matricula'),
     path('estudiante/prueba/', estudiantes_views.Documentos_view, name='prueba'),
