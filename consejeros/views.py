@@ -78,4 +78,4 @@ def actualizar_matricula(request, matricula_id):
                 curso.save()
 
         matricula.save()
-        return redirect('listar')
+        return redirect('listar_c')
