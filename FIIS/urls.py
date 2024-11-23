@@ -71,7 +71,7 @@ urlpatterns = [
     path('director/registro/', director_views.registro_usuario, name='registro'),
 
     # Rutas para el rol de consejero
-    path('consejeros/index/', consejero_views.index_consejero, name='consejero_index'), 
+    path('consejeros/index/', consejero_views.consejero_index, name='consejero_index'), 
     path('consejeros/logout_vista/', consejero_views.logout_view, name='logout_vista'),  
     path('consejeros/dash_admi/', consejero_views.dash_consejero, name='dash_consejero'),  
     path('consejeros/principal/', consejero_views.principal, name='home_consejero'),  
