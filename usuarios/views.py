@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
-from .models import Usuario, Estudiante, Administrativo,Director
+from .models import Usuario, Estudiante, Administrativo,Director,Docente
 
 
 # Create your views here.
@@ -31,7 +31,8 @@ def login(request):
                 request.session['codigo_director'] = director.codigo_director
                 return redirect('director_index')
             elif usuario.rol == 'docente':
-                request.session['codigo_docente'] = administrativo.codigo_docente
+                docente =Docente.objects.get(usuario=usuario)
+                request.session['codigo_docente'] = docente.codigo_docente
                 return redirect('consejero_index')
         except Usuario.DoesNotExist:
             messages.error(request, 'Credenciales incorrectas')

@@ -6,7 +6,7 @@ from estudiantes.models import Matricula, DocumentosMatricula
 from django.contrib import messages
 # Create your views here.
 
-def index_consejero(request):
+def consejero_index(request):
     return render(request, 'consejeros/index.html')
 
 def logout_view(request):
