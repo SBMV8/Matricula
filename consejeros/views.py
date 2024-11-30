@@ -31,7 +31,7 @@ def perfil_consejero(request):
         messages.error(request, 'No se encontró el código del consejero en la sesión.')
         return redirect('login')
     try:
-        docente = docente.objects.get(codigo_docente=codigo_docente)
+        docente = Docente.objects.get(codigo_docente=codigo_docente)
     except docente.DoesNotExist:
         messages.error(request, 'El consejero no esta registrado.')
         return redirect('login')
