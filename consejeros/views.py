@@ -25,7 +25,6 @@ def principal(request):
     return render(request, 'consejeros/home.html')
 
 
-
 def perfil_consejero(request):
     codigo_docente = request.session.get('codigo_docente')
     if not codigo_docente:
@@ -78,4 +77,4 @@ def actualizar_matricula(request, matricula_id):
                 curso.save()
 
         matricula.save()
-        return redirect('listar_c')
+        return redirect('listar')
