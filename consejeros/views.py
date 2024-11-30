@@ -12,7 +12,7 @@ def consejero_index(request):
 def logout_view(request):
     # Eliminar el código de estudiante de la sesión
     if 'codigo_consejero' in request.session:
-        del request.session['codigo_codigo']  # Elimina el código del estudiante 
+        del request.session['codigo_consejero']  # Elimina el código del consejero
     # Cerrar la sesión eliminando todos los datos de sesión
     request.session.flush()  # Esto elimina todos los datos de la sesión
 
@@ -32,8 +32,8 @@ def perfil_consejero(request):
         return redirect('login')
     try:
         docente = Docente.objects.get(codigo_docente=codigo_docente)
-    except docente.DoesNotExist:
-        messages.error(request, 'El consejero no esta registrado.')
+    except Docente.DoesNotExist:
+        messages.error(request, 'El consejero no existe.')
         return redirect('login')
     context = {
         'docente': docente,
