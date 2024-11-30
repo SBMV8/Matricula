@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.core.paginator import Paginator
 from estudiantes.models import Curso
-from usuarios.models import Estudiante, Administrativo, Usuario
+from usuarios.models import Estudiante, Administrativo, Usuario,Docente,Director
 from estudiantes.models import Matricula, DocumentosMatricula
 from django.contrib import messages
 # Create your views here.
