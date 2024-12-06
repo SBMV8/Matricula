@@ -9,8 +9,9 @@
 {% else %}
     <div class="container">
         <h3>Realiza el pago de tu MATRICULA</h3>
-
-        
+        <img src="{% static 'estudiantes/qr_codes/pago_yape.jpg' %}" alt="QR Yape">
+        <p>Monto a pagar: S/ 0.01</p>
+        <p>Destinatario: Güido Genaro Maidana Aquino</p>
         {% if messages %}
             <div class="messages">
                 {% for message in messages %}
