@@ -81,14 +81,8 @@ def pago_view(request):
     monto = 0.01
     destinatario = "Güido Genaro Maidana Aquino"
     
-    # Ruta de la imagen del QR almacenada en el sistema de archivos
-    qr_image_path = os.path.join(settings.MEDIA_ROOT, 'qr_codes', 'pago_yape.jpg')
-
-    # Verifica si la imagen existe
-    if os.path.exists(qr_image_path):
-        qr_image_url = os.path.join(settings.MEDIA_URL, 'qr_codes', 'pago_yape.jpg')
-    else:
-        qr_image_url = None  # En caso de que no se encuentre la imagen
+    # Ruta estática de la imagen QR
+    qr_image_url = static('estudiantes/qr_codes/pago_yape.jpg')  # Cambié la ruta para usar static
 
     # Pasar datos a la plantilla
     context = {
@@ -98,7 +92,6 @@ def pago_view(request):
     }
 
     return render(request, "estudiantes/pago.html", context)
-
 
 def matricula_view(request):
     codigo_alumno = request.session.get('codigo_estudiante')
