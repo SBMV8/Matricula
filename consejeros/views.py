@@ -38,9 +38,9 @@ def perfil_consejero(request):
 
 def verificar_pagos_view(request):
     # Obtener las transacciones por estado
-    transacciones_pendientes = TransaccionPago.objects.filter(estado='pendiente')
-    transacciones_aceptadas = TransaccionPago.objects.filter(estado='aceptado')
-    transacciones_rechazadas = TransaccionPago.objects.filter(estado='rechazado')
+    transacciones_pendientes = TransaccionPago.objects.filter(estado='Pendiente')
+    transacciones_aceptadas = TransaccionPago.objects.filter(estado='Aceptado')
+    transacciones_rechazadas = TransaccionPago.objects.filter(estado='Rechazado')
 
     # Manejar la acción del formulario (aceptar/rechazar)
     if request.method == "POST":
@@ -50,18 +50,18 @@ def verificar_pagos_view(request):
         try:
             transaccion = TransaccionPago.objects.get(id=transaccion_id)
             if accion == "aceptar":
-                transaccion.estado = "aceptado"
+                transaccion.estado = "Aceptado"
                 messages.success(request, f"Transacción {transaccion.numero_transaccion} aceptada.")
             elif accion == "rechazar":
-                transaccion.estado = "rechazado"
+                transaccion.estado = "Rechazado"
                 messages.success(request, f"Transacción {transaccion.numero_transaccion} rechazada.")
             else:
                 messages.error(request, "Acción no válida.")
             transaccion.save()
         except TransaccionPago.DoesNotExist:
-            messages.error(request, "Transacción no encontrada.")
+             messages.error(request, "La transacción especificada no existe.")
         except Exception as e:
-            messages.error(request, f"Error al procesar la transacción: {e}")
+            messages.error(request, f"Hubo un problema procesando la transacción: {e}")
 
         return redirect("verificar_pagos")
 
