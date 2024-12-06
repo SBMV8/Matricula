@@ -35,3 +35,69 @@
 .container p strong {
     font-weight: bold;
 }
+/* Estilo para la nueva sección */
+.payment-verification {
+    margin-top: 30px; /* Espaciado superior */
+    padding: 15px;    /* Espaciado interno */
+    background-color: #ffffff; /* Fondo blanco */
+    border: 1px solid #ddd;    /* Borde gris claro */
+    border-radius: 10px;       /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+.payment-verification h4 {
+    font-size: 1.2em; /* Tamaño del subtítulo */
+    margin-bottom: 10px; /* Espaciado inferior */
+}
+
+.payment-verification form {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos verticalmente */
+    gap: 10px; /* Espaciado entre los elementos */
+}
+
+.payment-verification label {
+    font-size: 1em; /* Tamaño de la etiqueta */
+    font-weight: bold; /* Negrita para la etiqueta */
+    text-align: left; /* Alineación izquierda */
+}
+
+.payment-verification input {
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    width: 100%; /* Ancho completo */
+    font-size: 1em; /* Tamaño de fuente */
+}
+
+.payment-verification button {
+    padding: 10px; /* Espaciado interno */
+    background-color: #007bff; /* Azul para el botón */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Indica que es un botón clickeable */
+    font-size: 1em; /* Tamaño de fuente */
+}
+
+.payment-verification button:hover {
+    background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
+}
+.messages {
+    margin-bottom: 1rem;
+}
+.message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
