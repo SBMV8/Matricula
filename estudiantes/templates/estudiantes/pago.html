@@ -1,5 +1,4 @@
 {% extends 'estudiantes/base.html' %}
-
 {% block main_content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'estudiantes/css/pago.css' %}">
@@ -13,7 +12,6 @@
         <img src="{% static 'estudiantes/qr_codes/pago_yape.jpg' %}" alt="QR Yape">
         <p>Monto a pagar: S/ 0.01</p>
         <p>Destinatario: Güido Genaro Maidana Aquino</p>
-        <br>
         {% if messages %}
             <div class="messages">
                 {% for message in messages %}
@@ -21,7 +19,6 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <br>
         <div class="payment-verification">
             <h4>¿Ya realizaste el pago?</h4>
             <form method="post">
