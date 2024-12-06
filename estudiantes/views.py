@@ -1,11 +1,12 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect
 from django.core.paginator import Paginator
-from django.core.exceptions import ValidationError
 from .models import Curso, CursoAprobado,Matricula,DocumentosMatricula
 from usuarios.models import Estudiante
 from .forms import *
+import qrcode
+from io import BytesIO
+import base64
 from django.contrib import messages
-from django.db import transaction
 
 # Create your views here.
 
@@ -76,23 +77,36 @@ def registro_de_notas_view(request):
     
     return render(request, 'estudiantes/registro_de_notas.html', {'cursos_aprobados': cursos_aprobados})
 
-def simular_pago(request):
-    success_message = None
+def pago_view(request):
+    # Datos fijos
+    numero_telefono = "+51 980503569"  # Número de Yape asociado
+    monto = 2.00
+    destinatario = "Güido Genaro Maidana Aquino"
 
-    if request.method == "POST":
-        # Captura los datos enviados (validación básica)
-        card_number = request.POST.get("card_number")
-        card_name = request.POST.get("card_name")
-        expiry_date = request.POST.get("expiry_date")
-        cvv = request.POST.get("cvv")
+    # Generar el QR
+    datos_qr = f"yape://{numero_telefono}?monto={monto}"
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(datos_qr)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
 
-        # Simulación de validación (puedes agregar lógica adicional)
-        if len(card_number) == 16 and len(cvv) == 3:
-            success_message = "¡Pago realizado con éxito!"
-        else:
-            success_message = "¡Datos Incorrectos!"
+    # Convertir la imagen a base64 para mostrarla en HTML
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
 
-    return render(request, "estudiantes/pago.html", {"success": success_message})
+    # Pasar datos a la plantilla
+    context = {
+        "monto": monto,
+        "destinatario": destinatario,
+        "qr_base64": qr_base64,  # Imagen QR codificada en base64
+    }
+    return render(request, "pago.html", context)
 
 
 
