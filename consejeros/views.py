@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.core.paginator import Paginator
 from estudiantes.models import Curso
 from usuarios.models import Estudiante, Administrativo, Usuario,Docente,Director
-from estudiantes.models import Matricula, DocumentosMatricula
+from estudiantes.models import Matricula, DocumentosMatricula, TransaccionPago
 from django.contrib import messages
 # Create your views here.
 
@@ -40,6 +40,42 @@ def perfil_consejero(request):
     }
     return render(request, 'consejeros/perfil.html', context)
 
+def verificar_pagos_view(request):
+    # Obtener las transacciones por estado
+    transacciones_pendientes = TransaccionPago.objects.filter(estado='pendiente')
+    transacciones_aceptadas = TransaccionPago.objects.filter(estado='aceptado')
+    transacciones_rechazadas = TransaccionPago.objects.filter(estado='rechazado')
+
+    # Manejar la acción del formulario (aceptar/rechazar)
+    if request.method == "POST":
+        transaccion_id = request.POST.get("transaccion_id")
+        accion = request.POST.get("accion")
+
+        try:
+            transaccion = TransaccionPago.objects.get(id=transaccion_id)
+            if accion == "aceptar":
+                transaccion.estado = "aceptado"
+                messages.success(request, f"Transacción {transaccion.numero_transaccion} aceptada.")
+            elif accion == "rechazar":
+                transaccion.estado = "rechazado"
+                messages.success(request, f"Transacción {transaccion.numero_transaccion} rechazada.")
+            else:
+                messages.error(request, "Acción no válida.")
+            transaccion.save()
+        except TransaccionPago.DoesNotExist:
+            messages.error(request, "Transacción no encontrada.")
+        except Exception as e:
+            messages.error(request, f"Error al procesar la transacción: {e}")
+
+        return redirect("verificar_pagos")
+
+    # Renderizar el template con las transacciones
+    context = {
+        "pendientes": transacciones_pendientes,
+        "aceptadas": transacciones_aceptadas,
+        "rechazadas": transacciones_rechazadas,
+    }
+    return render(request, "consejeros/verificar_pagos.html", context)
 
 def lista_matriculas_view(request):
 

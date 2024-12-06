@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Verificar Pagos</h2>
+
+{% for tipo, transacciones in [
+    ('Pendientes', pendientes),
+    ('Aceptadas', aceptadas),
+    ('Rechazadas', rechazadas),
+] %}
+    <h3>Transacciones {{ tipo }}</h3>
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Estudiante</th>
+                <th>Número de Transacción</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                {% if tipo == 'Pendientes' %}
+                    <th>Acciones</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaccion in transacciones %}
+            <tr>
+                <td>{{ transaccion.id }}</td>
+                <td>{{ transaccion.estudiante.codigo_estudiante }}</td>
+                <td>{{ transaccion.numero_transaccion }}</td>
+                <td>{{ transaccion.estado }}</td>
+                <td>{{ transaccion.fecha_creacion }}</td>
+                {% if tipo == 'Pendientes' %}
+                    <td>
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="transaccion_id" value="{{ transaccion.id }}">
+                            <button type="submit" name="accion" value="aceptar">Aceptar</button>
+                        </form>
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="transaccion_id" value="{{ transaccion.id }}">
+                            <button type="submit" name="accion" value="rechazar">Rechazar</button>
+                        </form>
+                    </td>
+                {% endif %}
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No hay transacciones {{ tipo }}.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+{% endfor %}
+{% endblock %}
