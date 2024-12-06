@@ -8,8 +8,11 @@ class RegistroUsuarioForm(forms.ModelForm):
     codigo = forms.CharField(max_length=10, label="Código")
     nombres = forms.CharField(max_length=100, label="Nombres")
     apellidos = forms.CharField(max_length=100, label="Apellidos")
+    plan_estudios = forms.CharField(max_length=4, required=False, label="Plan de estudios")
     telefono = forms.CharField(max_length=15, required=False, label="Teléfono")
     escuela = forms.CharField(max_length=100, required=False, label="Escuela")
+    nivel = forms.IntegerField(required=False, label="Nivel")
+    ciclo = forms.IntegerField(required=False, label="Ciclo")
 
     class Meta:
         model = Usuario
@@ -20,7 +23,7 @@ class RegistroUsuarioForm(forms.ModelForm):
         rol = cleaned_data.get("rol")
         # Si el rol es "estudiante", los campos de estudiante son requeridos
         if rol == 'estudiante':
-            if not cleaned_data.get("escuela"):
+            if cleaned_data.get("escuela"):
                 self.add_error("escuela", "Este campo es requerido para estudiantes.")
             if not cleaned_data.get("plan_estudios"):
                 self.add_error("plan_estudios", "Este campo es requerido para estudiantes.")

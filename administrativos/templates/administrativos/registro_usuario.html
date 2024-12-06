@@ -130,14 +130,17 @@
 <script>
     const rolField = document.getElementById("id_rol");
     const estudianteFields = document.getElementById("estudiante-fields");
+    const directorFields = document.getElementById("director-fields");
     const docenteFields = document.getElementById("docente-fields");
 
     rolField.addEventListener("change", function () {
         estudianteFields.style.display = rolField.value === "estudiante" ? "block" : "none";
+        directorFields.style.display = rolField.value === "director" ? "block" : "none";
         docenteFields.style.display = rolField.value === "docente" ? "block" : "none";
     });
 
     estudianteFields.style.display = rolField.value === "estudiante" ? "block" : "none";
+    directorFields.style.display = rolField.value === "director" ? "block" : "none";
     docenteFields.style.display = rolField.value === "docente" ? "block" : "none";
 </script>
 

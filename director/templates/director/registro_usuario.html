@@ -22,12 +22,7 @@
 
             <div class="input-container">
                 <label for="id_rol">Rol:</label>
-                <select name="rol" id="id_rol" required>
-                    <option value="" selected>--Seleccionar--</option>
-                    {% for value, text in form.rol.field.choices %}
-                        <option value="{{ value }}">{{ text }}</option>
-                    {% endfor %}
-                </select>
+                {{ form.rol }}
             </div>
 
             <div class="input-container">
@@ -46,10 +41,8 @@
                 <input placeholder="Ingrese el celular" type="tel" name="telefono" id="id_telefono" required>
             </div>
 
-           
-
             <!-- Campos adicionales para Estudiantes -->
-            <div id="estudiantes-fields" style="display:none;">
+            <div id="estudiante-fields" style="display:none;">
                 <div class="input-container">
                     <input placeholder="Ingrese la escuela" type="text" name="escuela" id="id_escuela">
                 </div>
@@ -63,15 +56,18 @@
                     <input placeholder="Ingrese el ciclo" type="number" name="ciclo" id="id_ciclo">
                 </div>
             </div>
-             <!-- Campos adicionales para Docentes -->
-             <div id="docente-fields" style="display:none;">
+
+            <!-- Campos adicionales para Docente -->
+            <div id="docente-fields" style="display:none;">
                 <div class="input-container">
                     <input placeholder="Ingrese la escuela" type="text" name="escuela" id="id_escuela">
                 </div>
-
+            </div>
+            
             <button class="submit" type="submit">Registrar Usuario</button>
         </form>
     </div>
+
 
     <div class="table-responsive">
         <h1 class="text-center mb-4">Listado de Usuarios</h1>
@@ -85,7 +81,6 @@
                     <th>Apellidos</th>
                     <th>Escuela</th>
                     <th>Teléfono</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -99,14 +94,13 @@
                         <td>{{ usuario.estudiante.apellidos }}</td>
                         <td>{{ usuario.estudiante.escuela }}</td>
                         <td>{{ usuario.estudiante.telefono }}</td>
-                        
                     {% elif usuario.rol == "docente" %}
                         <td>{{ usuario.docente.codigo_docente }}</td>
                         <td>{{ usuario.docente.nombres }}</td>
                         <td>{{ usuario.docente.apellidos }}</td>
                         <td>{{ usuario.docente.escuela }}</td>
                         <td>{{ usuario.docente.telefono }}</td>
-                    {% endif %}
+                    {% endif %}                  
                 </tr>
                 {% empty %}
                 <tr>
@@ -119,31 +113,18 @@
 </div>
 
 <script>
-    // Mostrar/Ocultar campos adicionales dependiendo del rol seleccionado
     const rolField = document.getElementById("id_rol");
-    const estudianteFields = document.getElementById("estudiantes-fields");
+    const estudianteFields = document.getElementById("estudiante-fields");
     const docenteFields = document.getElementById("docente-fields");
 
     rolField.addEventListener("change", function () {
-        if (rolField.value === "estudiante") {
-            estudianteFields.style.display = "block";
-        } else {
-            estudianteFields.style.display = "none";
-        }
-    });
-    rolField.addEventListener("change", function () {
-        if (rolField.value === "docente") {
-            docenteFields.style.display = "block";
-        } else {
-            docenteFields.style.display = "none";
-        }
+        estudianteFields.style.display = rolField.value === "estudiante" ? "block" : "none";
+        docenteFields.style.display = rolField.value === "docente" ? "block" : "none";
     });
 
-    if (rolField.value !== "Estudiante") {
-        estudianteFields.style.display = "none";
-    }
-    if (rolField.value !== "docente") {
-        estudianteFields.style.display = "none";
-    }
+    estudianteFields.style.display = rolField.value === "estudiante" ? "block" : "none";
+    docenteFields.style.display = rolField.value === "docente" ? "block" : "none";
 </script>
+
+<script src="{% static 'administrativos/js/usuario.js' %}"></script>
 {% endblock %}

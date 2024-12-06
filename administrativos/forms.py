@@ -32,7 +32,7 @@ class RegistroUsuarioForm(forms.ModelForm):
         
         # Validaciones específicas para el rol 'estudiante'
         if rol == 'estudiante':
-            if not cleaned_data.get("escuela"):
+            if cleaned_data.get("escuela") is None:
                 self.add_error("escuela", "Este campo es requerido para estudiantes.")
             if not cleaned_data.get("plan_estudios"):
                 self.add_error("plan_estudios", "Este campo es requerido para estudiantes.")
