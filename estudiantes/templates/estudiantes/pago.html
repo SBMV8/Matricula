@@ -4,13 +4,13 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'estudiantes/css/pago.css' %}">
 <div class="container">
-    <h1>Realiza el pago de tu <span>MATRÍCULA</span></h1>
-    <div class="qr">
-        <img src="data:image/png;base64,{{ qr_base64 }}" alt="QR de Yape" width="200">
-    </div>
-    <div class="details">
-        <p>Monto: <span>S/ {{ monto }}</span></p>
-        <p>Destinatario: <span>{{ destinatario }}</span></p>
-    </div>
+    <h3>Realiza el pago de tu MATRICULA</h3>
+    {% if qr_image_url %}
+        <img src="{{ qr_image_url }}" alt="QR Yape">
+    {% else %}
+        <p>No se pudo encontrar el código QR.</p>
+    {% endif %}
+    <p>Monto a pagar: S/ {{ monto }}</p>
+    <p>Destinatario: {{ destinatario }}</p>
 </div>
 {% endblock %}

@@ -1,11 +1,10 @@
 from django.shortcuts import render,redirect
+import os
+from django.conf import settings
 from django.core.paginator import Paginator
 from .models import Curso, CursoAprobado,Matricula,DocumentosMatricula
 from usuarios.models import Estudiante
 from .forms import *
-import qrcode
-from io import BytesIO
-import base64
 from django.contrib import messages
 
 # Create your views here.
@@ -79,35 +78,26 @@ def registro_de_notas_view(request):
 
 def pago_view(request):
     # Datos fijos
-    numero_telefono = "+51 980503569"  # Número de Yape asociado
     monto = 2.00
     destinatario = "Güido Genaro Maidana Aquino"
+    
+    # Ruta de la imagen del QR almacenada en el sistema de archivos
+    qr_image_path = os.path.join(settings.MEDIA_ROOT, 'qr_codes', 'pago_yape.jpg')
 
-    # Generar el QR
-    datos_qr = f"yape://{numero_telefono}?monto={monto}"
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
-    )
-    qr.add_data(datos_qr)
-    qr.make(fit=True)
-    img = qr.make_image(fill_color="black", back_color="white")
-
-    # Convertir la imagen a base64 para mostrarla en HTML
-    buffer = BytesIO()
-    img.save(buffer, format="PNG")
-    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    # Verifica si la imagen existe
+    if os.path.exists(qr_image_path):
+        qr_image_url = os.path.join(settings.MEDIA_URL, 'qr_codes', 'pago_yape.jpg')
+    else:
+        qr_image_url = None  # En caso de que no se encuentre la imagen
 
     # Pasar datos a la plantilla
     context = {
         "monto": monto,
         "destinatario": destinatario,
-        "qr_base64": qr_base64,  # Imagen QR codificada en base64
+        "qr_image_url": qr_image_url,  # Ruta de la imagen QR
     }
-    return render(request, "pago.html", context)
 
+    return render(request, "estudiantes/pago.html", context)
 
 
 def matricula_view(request):

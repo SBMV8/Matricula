@@ -1,19 +1,37 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
+/* Estilo para el contenedor principal */
 .container {
-    padding: 20px;
+    width: 100%;
+    max-width: 600px;  /* Establece un máximo para el contenedor */
+    margin: 0 auto;    /* Centra el contenedor en la página */
+    padding: 20px;     /* Espaciado interno */
+    text-align: center; /* Centra el contenido de texto */
+    background-color: #f9f9f9; /* Fondo suave */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
 }
-.qr {
-    margin: 20px auto;
+
+/* Estilo para el título */
+.container h3 {
+    font-size: 1.5em;  /* Tamaño de la fuente */
+    margin-bottom: 20px; /* Espacio debajo del título */
 }
-.details {
-    margin-top: 10px;
-    font-size: 18px;
+
+/* Estilo para la imagen */
+.container img {
+    max-width: 250px;   /* Establece un tamaño máximo de 250px para la imagen */
+    width: 100%;        /* Permite que la imagen sea más pequeña si es necesario */
+    height: auto;       /* Mantiene la proporción de la imagen */
+    display: block;     /* Elimina espacio extra debajo de la imagen */
+    margin: 0 auto;     /* Centra la imagen en el contenedor */
 }
-.details span {
+
+/* Estilo para los párrafos */
+.container p {
+    font-size: 1em;     /* Tamaño de fuente estándar */
+    margin: 10px 0;     /* Espacio arriba y abajo de los párrafos */
+}
+
+/* Estilo para los párrafos de los montos y destinatario */
+.container p strong {
     font-weight: bold;
 }
