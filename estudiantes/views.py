@@ -78,7 +78,7 @@ def registro_de_notas_view(request):
 
 def pago_view(request):
     # Datos fijos
-    monto = 2.00
+    monto = 0.01
     destinatario = "Güido Genaro Maidana Aquino"
     
     # Ruta de la imagen del QR almacenada en el sistema de archivos
