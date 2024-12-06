@@ -76,7 +76,7 @@ urlpatterns = [
     path('consejeros/home/', consejero_views.home, name='home'),
     path('consejeros/perfil/', consejero_views.perfil_consejero, name='perfil_consejero'),
     path('consejeros/verificar-pagos/', consejero_views.verificar_pagos_view, name='verificar_pagos'),
-    path('consejeros/revisar_matriculas/', consejero_views.lista_matriculas_view, name='listar'),
+    path('consejeros/lista_matriculas_view/', consejero_views.lista_matriculas_view, name='listar'),
     path('consejeros/actualizar_matricula/<int:matricula_id>/', consejero_views.actualizar_matricula, name='actualizar_matricula'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
