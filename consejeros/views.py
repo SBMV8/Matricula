@@ -18,12 +18,8 @@ def logout_view(request):
 
     return redirect('login_page')  # Redirige a la página de inicio de sesión 
 
-def dash_consejero(request):
-    return render(request, 'consejeros/base.html')
-
-def principal(request):
+def home(request):
     return render(request, 'consejeros/home.html')
-
 
 def perfil_consejero(request):
     codigo_docente = request.session.get('codigo_docente')

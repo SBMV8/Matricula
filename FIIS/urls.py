@@ -73,8 +73,7 @@ urlpatterns = [
     # Rutas para el rol de consejero
     path('consejeros/index/', consejero_views.consejero_index, name='consejero_index'),
     path('consejeros/logout_vista/', consejero_views.logout_view, name='logout_vista'),  
-    path('consejeros/dash_consejero/', consejero_views.dash_consejero, name='dash_consejero'),  
-    path('consejeros/principal/', consejero_views.principal, name='principal'),
+    path('consejeros/home/', consejero_views.home, name='home'),
     path('consejeros/perfil/', consejero_views.perfil_consejero, name='perfil_consejero'),
     path('consejeros/verificar-pagos/', consejero_views.verificar_pagos_view, name='verificar_pagos'),
     path('consejeros/revisar_matriculas/', consejero_views.lista_matriculas_view, name='listar'),
