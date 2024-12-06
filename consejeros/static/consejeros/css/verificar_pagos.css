@@ -1,0 +1,51 @@
+/* Estilo para el encabezado */
+h2, h3 {
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Estilo para las tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+table thead {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+/* Estilo para las filas alternadas */
+table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+/* Estilo para los botones */
+button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 14px;
+}
+
+button[name="accion"][value="aceptar"] {
+    background-color: #28a745; /* Verde */
+}
+
+button[name="accion"][value="rechazar"] {
+    background-color: #dc3545; /* Rojo */
+}
+
+button:hover {
+    opacity: 0.9;
+}
