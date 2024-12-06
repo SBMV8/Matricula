@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
-import os
-from django.conf import settings
+from django.templatetags.static import static
 from django.core.paginator import Paginator
 from .models import Curso, CursoAprobado,Matricula,DocumentosMatricula
 from usuarios.models import Estudiante
