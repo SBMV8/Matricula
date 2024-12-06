@@ -1,56 +1,68 @@
 {% extends 'consejeros/base.html' %}
-{% block main_content %}
 {% load static %}
 
-<link rel="stylesheet" href="{% static 'consejeros/css/revisar_matriculas.css' %}">
-<h1>Verificar Pagos</h1>
+<link rel="stylesheet" href="{% static 'consejeros/css/verificar_pagos.css' %}">
 
+{% block main_content %}
+<h1>Verificación de Pagos</h1>
+
+<!-- Filtro por estado -->
+<div class="filter-form">
+    <form method="GET">
+        <label for="estado">Filtrar por Estado:</label>
+        <select name="estado" id="estado" onchange="this.form.submit()">
+            <option value="">Todos</option>
+            <option value="Pendiente" {% if estado_seleccionado == "Pendiente" %}selected{% endif %}>Pendiente</option>
+            <option value="Aceptado" {% if estado_seleccionado == "Aceptado" %}selected{% endif %}>Aceptado</option>
+            <option value="Rechazado" {% if estado_seleccionado == "Rechazado" %}selected{% endif %}>Rechazado</option>
+        </select>
+    </form>
+</div>
+
+<!-- Tabla de Transacciones -->
 <div class="table-responsive">
-    {% for tipo, transacciones in [
-        ('Pendientes', pendientes),
-        ('Aceptadas', aceptadas),
-        ('Rechazadas', rechazadas),
-    ] %}
-        <h2>Transacciones {{ tipo }}</h2>
-        <table class="custom-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Estudiante</th>
-                    <th>Número de Transacción</th>
-                    <th>Estado</th>
-                    <th>Fecha</th>
-                    {% if tipo == 'Pendientes' %}
-                        <th>Acciones</th>
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Estudiante</th>
+                <th>Número de Transacción</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaccion in transacciones %}
+            <tr>
+                <td>{{ transaccion.id }}</td>
+                <td>{{ transaccion.estudiante.codigo_estudiante }}</td>
+                <td>{{ transaccion.numero_transaccion }}</td>
+                <td>{{ transaccion.estado }}</td>
+                <td>{{ transaccion.fecha_creacion }}</td>
+                <td>
+                    {% if transaccion.estado == "Pendiente" %}
+                        <form method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="transaccion_id" value="{{ transaccion.id }}">
+                            <button type="submit" name="accion" value="aceptar" class="btn-aceptar">Aceptar</button>
+                        </form>
+                        <form method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="transaccion_id" value="{{ transaccion.id }}">
+                            <button type="submit" name="accion" value="rechazar" class="btn-rechazar">Rechazar</button>
+                        </form>
+                    {% else %}
+                        Sin acciones
                     {% endif %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for transaccion in transacciones %}
-                <tr>
-                    <td>{{ transaccion.id }}</td>
-                    <td>{{ transaccion.estudiante.codigo_estudiante }}</td>
-                    <td>{{ transaccion.numero_transaccion }}</td>
-                    <td>{{ transaccion.estado }}</td>
-                    <td>{{ transaccion.fecha_creacion }}</td>
-                    {% if tipo == 'Pendientes' %}
-                        <td>
-                            <form method="POST">
-                                {% csrf_token %}
-                                <input type="hidden" name="transaccion_id" value="{{ transaccion.id }}">
-                                <button type="submit" name="accion" value="aceptar" class="btn-aceptar">Aceptar</button>
-                                <button type="submit" name="accion" value="rechazar" class="btn-rechazar">Rechazar</button>
-                            </form>
-                        </td>
-                    {% endif %}
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6">No hay transacciones {{ tipo }}.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endfor %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No hay transacciones en este estado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
