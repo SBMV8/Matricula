@@ -3,14 +3,34 @@
 {% block main_content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'estudiantes/css/pago.css' %}">
-<div class="container">
-    <h3>Realiza el pago de tu MATRICULA</h3>
-    {% if qr_image_url %}
-        <img src="{{ qr_image_url }}" alt="QR Yape">
-    {% else %}
-        <p>No se pudo encontrar el código QR.</p>
-    {% endif %}
-    <p>Monto a pagar: S/ {{ monto }}</p>
-    <p>Destinatario: {{ destinatario }}</p>
-</div>
+{% if error %}
+    <div class="error">
+        <p>{{ error }}</p>
+    </div>
+{% else %}
+    <div class="container">
+        <h3>Realiza el pago de tu MATRICULA</h3>
+        <img src="{% static 'estudiantes/qr_codes/pago_yape.jpg' %}" alt="QR Yape">
+        <p>Monto a pagar: S/ 0.01</p>
+        <p>Destinatario: Güido Genaro Maidana Aquino</p>
+
+        <div class="payment-verification">
+            <h4>¿Ya realizaste el pago?</h4>
+            <form method="post">
+                {% csrf_token %}
+                <label for="transaction_number">Número de transacción:</label>
+                <input type="text" id="transaction_number" name="transaction_number" placeholder="Ingresa el número de transacción" required>
+                <button type="submit">Verificar</button>
+            </form>
+        </div>
+        <br>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
 {% endblock %}

@@ -35,6 +35,21 @@ class CursoAprobado(models.Model):
 
     class Meta:
         unique_together = ('estudiante', 'curso')  # Evitar duplicados
+        
+class TransaccionPago(models.Model):
+    ESTADO_CHOICES = [
+        ('Pendiente', 'Pendiente'),
+        ('Aceptado', 'Aceptado'),
+        ('Rechazado', 'Rechazado'),
+    ]
+
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, related_name="transacciones")
+    numero_transaccion = models.CharField(max_length=50)
+    estado = models.CharField(max_length=10, choices=ESTADO_CHOICES, default='Pendiente')
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Transacción {self.numero_transaccion} - {self.estudiante.codigo_estudiante} ({self.estado})"
 
 class Matricula(models.Model):
     # Relación con la tabla Registro para heredar el código del alumno

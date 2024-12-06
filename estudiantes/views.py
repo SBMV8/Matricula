@@ -1,7 +1,6 @@
 from django.shortcuts import render,redirect
-from django.templatetags.static import static
 from django.core.paginator import Paginator
-from .models import Curso, CursoAprobado,Matricula,DocumentosMatricula
+from .models import Curso, CursoAprobado,Matricula,DocumentosMatricula,TransaccionPago
 from usuarios.models import Estudiante
 from .forms import *
 from django.contrib import messages
@@ -76,21 +75,54 @@ def registro_de_notas_view(request):
     return render(request, 'estudiantes/registro_de_notas.html', {'cursos_aprobados': cursos_aprobados})
 
 def pago_view(request):
-    # Datos fijos
-    monto = 0.01
-    destinatario = "Güido Genaro Maidana Aquino"
-    
-    # Ruta estática de la imagen QR
-    qr_image_url = static('estudiantes/qr_codes/pago_yape.jpg')  # Cambié la ruta para usar static
+    # Recuperar el código de estudiante desde la sesión
+    codigo_estudiante = request.session.get('codigo_estudiante')
 
-    # Pasar datos a la plantilla
-    context = {
-        "monto": monto,
-        "destinatario": destinatario,
-        "qr_image_url": qr_image_url,  # Ruta de la imagen QR
-    }
+    if not codigo_estudiante:
+        messages.error(request, "No se encontró el código de estudiante en la sesión.")
+        return render(request, 'estudiantes/pago.html')  # No redirigir, solo renderizar la página
 
-    return render(request, "estudiantes/pago.html", context)
+    # Recuperar el objeto Estudiante
+    try:
+        estudiante = Estudiante.objects.get(codigo_estudiante=codigo_estudiante)
+    except Estudiante.DoesNotExist:
+        messages.error(request, "El estudiante no existe.")
+        return render(request, 'estudiantes/pago.html')  # No redirigir, solo renderizar la página
+
+    # Verificar si ya existe una transacción en estado "pendiente" o "aceptado"
+    transaccion_existente = TransaccionPago.objects.filter(estudiante=estudiante).exclude(estado='rechazado').first()
+
+    if transaccion_existente:
+        if transaccion_existente.estado == 'aceptado':
+            messages.success(request, "¡Pago aceptado!")
+        else:  # estado == 'pendiente'
+            messages.info(request, "Ya has enviado una verificación. Espera a que sea procesada.")
+        return render(request, 'estudiantes/pago.html')  # No redirigir, solo renderizar la página
+
+
+    if request.method == "POST":
+        numero_transaccion = request.POST.get("transaction_number")
+
+        if not numero_transaccion:
+            messages.error(request, "Debe ingresar un número de transacción válido.")
+            return render(request, 'estudiantes/pago.html')  # No redirigir, solo renderizar la página
+
+        # Guardar la nueva transacción en la base de datos
+        try:
+            TransaccionPago.objects.create(
+                estudiante=estudiante,
+                numero_transaccion=numero_transaccion,
+                estado='pendiente'  # Estado inicial
+            )
+            messages.success(request, "Datos de verificación enviados. Espera la confirmación.")
+        except Exception as e:
+            messages.error(request, f"Ocurrió un error al guardar los datos: {str(e)}")
+        
+        return render(request, 'estudiantes/pago.html')  # No redirigir, solo renderizar la página
+
+
+    return render(request, "estudiantes/pago.html")
+
 
 def matricula_view(request):
     codigo_alumno = request.session.get('codigo_estudiante')
