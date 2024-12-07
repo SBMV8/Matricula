@@ -1,50 +1,106 @@
-/* Encabezados */
-h1 {
+/* Estilos generales */
+body {
     font-family: Arial, sans-serif;
-    color: #333;
+    background-color: #f4f7fb;
+    margin: 0;
+    padding: 0;
 }
 
-/* Tabla */
-.custom-table {
-    width: 100%;
-    border-collapse: collapse;
+h1 {
+    text-align: center;
+    color: #333;
     margin-top: 20px;
 }
 
-.custom-table th, .custom-table td {
+/* Formulario de filtro */
+.filter-form {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.filter-form select {
     padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
     border: 1px solid #ddd;
-    text-align: left;
+    width: 200px;
+    cursor: pointer;
 }
 
-.custom-table thead {
-    background-color: #f4f4f4;
+.filter-form label {
+    font-size: 18px;
+    color: #333;
+    margin-right: 10px;
 }
 
-/* Botones */
+/* Tabla de transacciones */
+.table-responsive {
+    max-width: 90%;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-table th, .custom-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.custom-table th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.custom-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.custom-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para las acciones */
+td form {
+    display: inline-block;
+    margin: 5px;
+}
+
+.btn-aceptar, .btn-rechazar {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
 .btn-aceptar {
     background-color: #28a745;
     color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
+}
+
+.btn-aceptar:hover {
+    background-color: #218838;
 }
 
 .btn-rechazar {
     background-color: #dc3545;
     color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
-button:hover {
-    opacity: 0.8;
+.btn-rechazar:hover {
+    background-color: #c82333;
 }
 
-/* Filtro */
-.filter-form {
-    margin-bottom: 20px;
+/* Mensaje cuando no hay transacciones */
+.custom-table td[colspan="6"] {
+    text-align: center;
+    font-style: italic;
+    color: #888;
 }
