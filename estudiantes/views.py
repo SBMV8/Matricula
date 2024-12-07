@@ -23,7 +23,7 @@ def logout_view(request):
 
     return redirect('login_page')  # Redirige a la página de inicio de sesión
 
-def home(request):
+def home_estudiante(request):
     return render(request, 'estudiantes/home.html')
 
 def consejeros(request):

@@ -38,7 +38,7 @@ urlpatterns = [
     
     # Rutas para el rol de estudiante
     path('estudiante/index/', estudiantes_views.estudiante_index, name='estudiante_index'), 
-    path('estudiante/home/', estudiantes_views.home, name='home'),  
+    path('estudiante/home/', estudiantes_views.home_estudiante, name='home_estudiante'),  
     path('estudiante/perfil/', estudiantes_views.perfil, name='perfil'), 
     path('estudiante/consejeros/', estudiantes_views.consejeros, name='consejeros'), 
     path('estudiante/cursos/', estudiantes_views.cursos_view, name='cursos'),

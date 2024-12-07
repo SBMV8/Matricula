@@ -8,7 +8,8 @@ from django.contrib import messages
 
 def consejero_index(request):
     return render(request, 'consejeros/index.html')
-
+def home(request):
+    return render(request, 'consejeros/home.html')
 def logout_view(request):
     # Eliminar el código de estudiante de la sesión
     if 'codigo_consejero' in request.session:
@@ -18,8 +19,6 @@ def logout_view(request):
 
     return redirect('login_page')  # Redirige a la página de inicio de sesión 
 
-def home(request):
-    return render(request, 'consejeros/home.html')
 
 def perfil_consejero(request):
     codigo_docente = request.session.get('codigo_docente')
