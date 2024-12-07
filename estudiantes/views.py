@@ -90,10 +90,10 @@ def pago_view(request):
         return render(request, 'estudiantes/pago.html')  # No redirigir, solo renderizar la página
 
     # Verificar si ya existe una transacción en estado "pendiente" o "aceptado"
-    transaccion_existente = TransaccionPago.objects.filter(estudiante=estudiante).exclude(estado='rechazado').first()
+    transaccion_existente = TransaccionPago.objects.filter(estudiante=estudiante).exclude(estado='Rechazado').first()
 
     if transaccion_existente:
-        if transaccion_existente.estado == 'aceptado':
+        if transaccion_existente.estado == 'Aceptado':
             messages.success(request, "¡Pago aceptado!")
         else:  # estado == 'pendiente'
             messages.info(request, "Ya has enviado una verificación. Espera a que sea procesada.")
@@ -112,7 +112,7 @@ def pago_view(request):
             TransaccionPago.objects.create(
                 estudiante=estudiante,
                 numero_transaccion=numero_transaccion,
-                estado='pendiente'  # Estado inicial
+                estado='Pendiente'  # Estado inicial
             )
             messages.success(request, "Datos de verificación enviados. Espera la confirmación.")
         except Exception as e:

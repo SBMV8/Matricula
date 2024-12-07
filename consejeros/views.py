@@ -75,6 +75,23 @@ def verificar_pagos_view(request):
     }
     return render(request, 'consejeros/verificar_pagos.html', context)
 
+def actualizar_pago(request, transaccion_id):
+    if request.method == "POST":
+        accion = request.POST.get("accion")
+        transaccion = get_object_or_404(TransaccionPago, id=transaccion_id)
+
+        if accion == "aceptar":
+            transaccion.estado = "Aceptado"
+            messages.success(request, f"Transacción {transaccion.numero_transaccion} aceptada.")
+        elif accion == "rechazar":
+            transaccion.estado = "Rechazado"
+            messages.warning(request, f"Transacción {transaccion.numero_transaccion} rechazada.")
+        else:
+            messages.error(request, "Acción no válida.")
+
+        transaccion.save()
+        return redirect('verificar_pagos')
+    
 def lista_matriculas_view(request):
 
     # Obtener el estado seleccionado desde el formulario
