@@ -138,6 +138,11 @@ def matricula_view(request):
         messages.error(request, 'Error: Registro de alumno no encontrado.')
         return redirect('login')
     
+    # Verificar si el pago del estudiante ha sido aceptado
+    pago_aceptado = TransaccionPago.objects.filter(estudiante=alumno, estado="Aceptado").exists()
+    if not pago_aceptado:
+        messages.warning(request, 'No puedes acceder a la matrícula hasta que tu pago sea aceptado.')
+        return redirect('perfil')  # O redirige a una página específica donde informes el estado del pago
     
     # Verificar si existe una matrícula pendiente o aprobada para el alumno
     matricula_existente = Matricula.objects.filter(codigo=alumno).exclude(estado='Rechazado').exists()
