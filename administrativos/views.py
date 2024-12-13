@@ -5,6 +5,7 @@ from .forms import RegistroUsuarioForm
 from usuarios.models import Estudiante, Administrativo, Usuario, Docente, Director
 from django.contrib import messages
 from django.http import JsonResponse
+import pandas as pd
 # Create your views here.
 
 def administrativo_index(request):
@@ -24,71 +25,136 @@ def principal(request):
 
 def registro_usuario(request):
     if request.method == 'POST':
-        form = RegistroUsuarioForm(request.POST)
-        if form.is_valid():
-            usuario = form.save()
-            # Campos comunes
-            codigo = form.cleaned_data.get('codigo')
-            nombres = form.cleaned_data.get('nombres')
-            apellidos = form.cleaned_data.get('apellidos')
-            telefono = form.cleaned_data.get('telefono')
+        if 'excel_file' in request.FILES:  # Verificar si se subió un archivo
+            excel_file = request.FILES['excel_file']
+            if not excel_file:
+                messages.error(request, "Por favor, selecciona un archivo.")
+                return redirect("registro_usuario")
+            try:
+                # Leer el archivo Excel con pandas
+                data = pd.read_excel(excel_file)
+                
+                # Procesar cada fila del Excel
+                for _, row in data.iterrows():
+                    # Crear un usuario
+                    usuario = Usuario.objects.create(
+                        correo=row.get('correo'),
+                        password=row.get('password'),  
+                        rol=row.get('rol'),
+                    )
 
-            # Creación según el rol
-            if usuario.rol == 'estudiante':
-                escuela = form.cleaned_data.get('escuela')
-                plan_estudios = form.cleaned_data.get('plan_estudios')
-                nivel = form.cleaned_data.get('nivel')
-                ciclo = form.cleaned_data.get('ciclo')
+                    # Campos comunes
+                    codigo = row.get('codigo')
+                    nombres = row.get('nombres')
+                    apellidos = row.get('apellidos')
+                    telefono = row.get('telefono')
+
+                    # Verifica el rol y crea el modelo específico
+                    if usuario.rol == 'estudiante':
+                        Estudiante.objects.create(
+                            usuario=usuario,
+                            codigo_estudiante=codigo,
+                            nombres=nombres,
+                            apellidos=apellidos,
+                            telefono=telefono,
+                            escuela=row.get('escuela'),
+                            plan_estudios=row.get('plan_estudios'),
+                            nivel=row.get('nivel'),
+                            ciclo=row.get('ciclo'),
+                        )
+                    elif usuario.rol == 'administrativo':
+                        Administrativo.objects.create(
+                            usuario=usuario,
+                            codigo_administrativo=codigo,
+                            nombres=nombres,
+                            apellidos=apellidos,
+                            telefono=telefono,
+                        )
+                    elif usuario.rol == 'director':
+                        Director.objects.create(
+                            usuario=usuario,
+                            codigo_director=codigo,
+                            nombres=nombres,
+                            apellidos=apellidos,
+                            telefono=telefono,
+                        )
+                    elif usuario.rol == 'docente':
+                        Docente.objects.create(
+                            usuario=usuario,
+                            codigo_docente=codigo,
+                            nombres=nombres,
+                            apellidos=apellidos,
+                            telefono=telefono,
+                            escuela=row.get('escuela'),
+                        )
                 
-                Estudiante.objects.create(
-                    usuario=usuario,
-                    codigo_estudiante=codigo,
-                    nombres=nombres,
-                    apellidos=apellidos,
-                    telefono=telefono,
-                    escuela=escuela,
-                    plan_estudios=plan_estudios,
-                    nivel=nivel,
-                    ciclo=ciclo
-                )
-            elif usuario.rol == 'administrativo':
-                Administrativo.objects.create(
-                    usuario=usuario,
-                    codigo_administrativo=codigo,
-                    nombres=nombres,
-                    apellidos=apellidos,
-                    telefono=telefono
-                )
-            elif usuario.rol == 'director':
-                Director.objects.create(
-                    usuario=usuario,
-                    codigo_director=codigo,
-                    nombres=nombres,
-                    apellidos=apellidos,
-                    telefono=telefono
-                )
-            elif usuario.rol == 'docente':
-                escuela = form.cleaned_data.get('escuela')
-                
-                Docente.objects.create(
-                    usuario=usuario,
-                    codigo_docente=codigo,
-                    nombres=nombres,
-                    apellidos=apellidos,
-                    telefono=telefono,
-                    escuela=escuela
-                )
-            
-            return redirect('registro_usuario')
-    else:
-        form = RegistroUsuarioForm()
+                messages.success(request, "Usuarios registrados exitosamente.")
+                return redirect('registro_usuario')
+            except Exception as e:
+                # Manejar errores en la lectura del archivo
+                messages.error(request, f"Error al procesar el archivo: {str(e)}")
+                return redirect("registro_usuario")
+        else:
+            # Procesar el formulario manualmente
+            form = RegistroUsuarioForm(request.POST)
+            if form.is_valid():
+                try:
+                    usuario = form.save()
+                    # Campos comunes
+                    codigo = form.cleaned_data.get('codigo')
+                    nombres = form.cleaned_data.get('nombres')
+                    apellidos = form.cleaned_data.get('apellidos')
+                    telefono = form.cleaned_data.get('telefono')
+
+                    # Creación según el rol
+                    if usuario.rol == 'estudiante':
+                        Estudiante.objects.create(
+                            usuario=usuario,
+                            codigo_estudiante=codigo,
+                            nombres=nombres,
+                            apellidos=apellidos,
+                            telefono=telefono,
+                            escuela=form.cleaned_data.get('escuela'),
+                            plan_estudios=form.cleaned_data.get('plan_estudios'),
+                            nivel=form.cleaned_data.get('nivel'),
+                            ciclo=form.cleaned_data.get('ciclo')
+                        )
+                    elif usuario.rol == 'administrativo':
+                        Administrativo.objects.create(
+                            usuario=usuario,
+                            codigo_administrativo=codigo,
+                            nombres=nombres,
+                            apellidos=apellidos,
+                            telefono=telefono
+                        )
+                    elif usuario.rol == 'director':
+                        Director.objects.create(
+                            usuario=usuario,
+                            codigo_director=codigo,
+                            nombres=nombres,
+                            apellidos=apellidos,
+                            telefono=telefono
+                        )
+                    elif usuario.rol == 'docente':
+                        Docente.objects.create(
+                            usuario=usuario,
+                            codigo_docente=codigo,
+                            nombres=nombres,
+                            apellidos=apellidos,
+                            telefono=telefono,
+                            escuela=form.cleaned_data.get('escuela')
+                        )
+
+                    messages.success(request, "Usuario registrado exitosamente.")
+                    return redirect('registro_usuario')
+                except Exception as e:
+                    messages.error(request, f"Error al registrar el usuario: {str(e)}")
+            else:
+                messages.error(request, "Por favor corrige los errores en el formulario.")
     
+    form = RegistroUsuarioForm()
     usuarios = Usuario.objects.all()
-    
-    return render(request, 'administrativos/registro_usuario.html', {
-        'form': form,
-        'usuarios': usuarios,
-    })
+    return render(request, 'administrativos/registro_usuario.html', {'form': form, 'usuarios': usuarios})
 
 def perfil_admi(request):
     codigo_administrativo = request.session.get('codigo_administrativo')

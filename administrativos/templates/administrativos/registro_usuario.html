@@ -11,7 +11,7 @@
             {% csrf_token %}
             {{ form.non_field_errors }}
 
-            <p class="form-title">Registrar Usuario</p>
+            <p class="form-title">Registrar Manual de Usuario</p>
 
             <div class="input-container">
                 <input placeholder="Ingrese correo" type="email" name="correo" id="id_correo" required>
@@ -67,6 +67,12 @@
             </div>
 
             <button class="submit" type="submit">Registrar Usuario</button>
+        </form>
+        <form class="form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="excel_file">Subir archivo Excel: </label>
+            <input type="file" name="excel_file" id="excel_file" accept=".xlsx, .xls">
+            <button class="submit" type="submit">Cargar Excel</button>
         </form>
     </div>
 

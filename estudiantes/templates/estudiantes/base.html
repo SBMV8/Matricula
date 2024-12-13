@@ -12,12 +12,12 @@
 </head>
 <body>
     <div class="sidebar">
-        <a href="{% url 'home' %}" class="logo">
+        <a href="{% url 'home_estudiante' %}" class="logo">
             <img src="{% static 'usuarios/img/tortuga.png' %}" style="width: 2.5rem; height: 2.5rem; object-fit: contain; margin-right: 0.6rem; margin-left: 0.6rem;">
             <div class="logo-name"><span>Blackboard</span></div>
         </a>
         <ul class="side-menu">
-            <li><a href="{%url 'home'%}"><i class='bx bxs-bank'></i>Pagina Principal</a></li>
+            <li><a href="{%url 'home_estudiante'%}"><i class='bx bxs-bank'></i>Pagina Principal</a></li>
             <li><a href="{%url 'perfil'%}"><i class='bx bx-user'></i>Estudiante</a></li>
             <li><a href="{%url 'registro_de_notas'%}"><i class='bx bx-file'></i>Mis Notas</a></li>
             <li><a href="{%url 'cursos'%}"><i class='bx bx-book'></i>Cursos</a></li>
