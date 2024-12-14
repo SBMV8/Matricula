@@ -61,7 +61,6 @@ urlpatterns = [
     path('administrativo/eliminar_usuario/<int:user_id>/', administrativos_views.eliminar_usuario, name='eliminar_usuario'),
     path('administrativo/obtener_usuario/<int:user_id>/',administrativos_views.obtener_usuario, name="obtener_usuario"),
     path('administrativo/registro_notas/',administrativos_views.registro_notas, name="registro_notas"),
-    path('administrativo/reporte/', administrativos_views.generar_reporte_pdf, name='reporte_pdf'),
     #rutas para el rol director de escuela
     path('director/index/', director_views.director_index, name='director_index'), 
     path('director/logout_vista/', director_views.logout_vista, name='logout_vista'),  
