@@ -37,7 +37,7 @@
 <form method="post" action="{% url 'editar_celular' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <label for="telefono">Número de Celular: </label>
-    <input type="tel" value="{{ telefono }}" id="telefono" name="telefono"  required disabled>
+    <input type="tel" value="{{ estudiante.telefono}}" id="telefono" name="telefono"  required disabled>
 
     <button type="button" id="btn_editar" onclick="activarEdicion()">Editar</button>
     <button type="submit" id="btn_guardar" style="display:none;">Guardar</button>
