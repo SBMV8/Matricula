@@ -4,6 +4,7 @@ from .models import Curso, CursoAprobado,Matricula,DocumentosMatricula,Transacci
 from usuarios.models import Estudiante
 from .forms import *
 from django.contrib import messages
+import re
 
 # Create your views here.
 
@@ -340,3 +341,38 @@ def Documentos_view(request):
 
     
     return render(request, 'estudiantes/perfil.html')
+
+def editar_celular_view(request):
+    # Recuperamos el código del estudiante desde la sesión
+    codigo_estudiante = request.session.get('codigo_estudiante')
+
+
+    try:
+        # Obtenemos el estudiante
+        estudiante = Estudiante.objects.get(codigo_estudiante=codigo_estudiante)
+    except Estudiante.DoesNotExist:
+        messages.error(request, 'Error: alumno no encontrado.')
+        return redirect('login')
+    
+    # Si es un método POST, actualizamos el número de celular
+    if request.method == 'POST':
+        nuevo_celular = request.POST.get('telefono')  # Obtenemos el nuevo número de celular desde el formulario
+
+        # Validamos el formato del número de celular (solo números, de longitud 9 a 15)
+        if nuevo_celular:
+            if not re.match(r'^\+?\d{9,15}$', nuevo_celular):  # Ejemplo de formato: +1234567890 o 123456789
+                messages.error(request, 'Por favor, ingresa un número de celular válido (solo números y 9-15 dígitos).')
+            else:
+                estudiante.telefono = nuevo_celular
+                estudiante.save()  # Guardamos el estudiante con el nuevo número de celular
+                messages.success(request, '¡Número de celular actualizado con éxito!')
+                return redirect('perfil')  # Redirigimos a la página de perfil
+        else:
+            messages.error(request, 'Por favor, ingresa un número de celular válido.')
+
+    context = {
+        'estudiante': estudiante,
+        'telefono': nuevo_celular,
+    }
+
+    return render(request, 'estudiantes/perfil.html', context)

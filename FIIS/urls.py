@@ -46,7 +46,7 @@ urlpatterns = [
     path('estudiante/registro-de-notas/', estudiantes_views.registro_de_notas_view, name='registro_de_notas'),
     path('estudiante/matricula/', estudiantes_views.matricula_view, name='matricula'),
     path('estudiante/prueba/', estudiantes_views.Documentos_view, name='prueba'),
-    
+    path('estudiante/editar-celular/', estudiantes_views.editar_celular_view, name='editar_celular'),
     # Rutas para el rol de administrativo
     path('administrativo/index/', administrativos_views.administrativo_index, name='administrativo_index'), 
     path('administrativo/logout_vista/', administrativos_views.logout_vista, name='logout_vista'),  

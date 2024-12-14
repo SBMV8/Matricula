@@ -32,4 +32,37 @@
     </div>
 </div>
 
+<h2>Celular</h2>
+
+<form method="post" action="{% url 'editar_celular' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="telefono">Número de Celular: </label>
+    <input type="tel" value="{{ telefono }}" id="telefono" name="telefono"  required disabled>
+
+    <button type="button" id="btn_editar" onclick="activarEdicion()">Editar</button>
+    <button type="submit" id="btn_guardar" style="display:none;">Guardar</button>
+</form>
+
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<script>
+    // Función para activar el campo de celular para edición
+    function activarEdicion() {
+        // Habilitar el campo de celular para edición
+        document.getElementById('telefono').disabled = false;
+        
+        // Mostrar el botón "Guardar"
+        document.getElementById('btn_guardar').style.display = 'inline-block';
+
+        // Ocultar el botón "Editar"
+        document.getElementById('btn_editar').style.display = 'none';
+    }
+</script>
+
 {% endblock %}
