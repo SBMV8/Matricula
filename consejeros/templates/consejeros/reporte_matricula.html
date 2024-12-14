@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Matrículas</title>
+    <style>
+        /* Estilos para el PDF */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        .ID{
+            width: 5%
+        }
+    </style>
+</head>
+<body>
+    <h1>Reporte de Matrículas</h1>
+    <h2> Cantidad: {{cantidad}}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th class="ID">ID</th>
+                <th>Escuela</th>
+                <th>Codigo</th>
+                <th>Nombres</th>
+                <th>Semestre 1</th>
+                <th>Semestre 2</th>
+                <th>telefono</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for matricula in matriculas %}
+            <tr>
+                <td>{{ matricula.id }}</td>
+                <td>{{ matricula.escuela}}</td>
+                <td>{{ matricula.codigo.codigo_estudiante  }} </td>
+                <td>{{ matricula.codigo.nombre }} {{ matricula.codigo.apellidos }}</td>
+                <td>{% for curso in matricula.semestre1.all %}
+                    {{ curso.nombre }} ,<br>
+                {% endfor %}
+                </td>
+                <td>
+                    {% for curso in matricula.semestre2.all %}
+                        {{ curso.nombre }} , <br>
+                    {% endfor %}
+                </td>
+                <td>{{ matricula.celular }} </td>
+
+            </tr>
+            {% endfor %}
+
+        
+        </tbody>
+    </table>
+</body>
+</html>

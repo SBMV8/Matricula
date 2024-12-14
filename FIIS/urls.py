@@ -61,7 +61,7 @@ urlpatterns = [
     path('administrativo/eliminar_usuario/<int:user_id>/', administrativos_views.eliminar_usuario, name='eliminar_usuario'),
     path('administrativo/obtener_usuario/<int:user_id>/',administrativos_views.obtener_usuario, name="obtener_usuario"),
     path('administrativo/registro_notas/',administrativos_views.registro_notas, name="registro_notas"),
-
+    path('administrativo/reporte/', administrativos_views.generar_reporte_pdf, name='reporte_pdf'),
     #rutas para el rol director de escuela
     path('director/index/', director_views.director_index, name='director_index'), 
     path('director/logout_vista/', director_views.logout_vista, name='logout_vista'),  
@@ -79,7 +79,7 @@ urlpatterns = [
     path('consejeros/actualizar_pago/<int:transaccion_id>/', consejero_views.actualizar_pago, name='actualizar_pago'),
     path('consejeros/lista_matriculas_view/', consejero_views.lista_matriculas_view, name='listar'),
     path('consejeros/actualizar_matricula/<int:matricula_id>/', consejero_views.actualizar_matricula, name='actualizar_matricula'),
-
+    path('consejero/reporte/', consejero_views.generar_reporte_pdf, name='reporte_pdf'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

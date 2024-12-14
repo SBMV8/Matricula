@@ -4,6 +4,8 @@ from estudiantes.models import Curso
 from usuarios.models import Estudiante, Administrativo, Usuario,Docente,Director
 from estudiantes.models import Matricula, DocumentosMatricula, TransaccionPago
 from django.contrib import messages
+from django.http import HttpResponse
+from .utils import render_to_pdf 
 # Create your views here.
 
 def consejero_index(request):
@@ -128,3 +130,19 @@ def actualizar_matricula(request, matricula_id):
 
         matricula.save()
         return redirect('listar')
+    
+def generar_reporte_pdf(request):
+    # Obtener todos los empleados
+    matriculas = Matricula.objects.filter(estado='Aceptado')  # Solo matrículas aceptadas
+
+    # Preparar los datos para enviar al template
+    data = {
+        'matriculas': matriculas,
+        'cantidad': matriculas.count()
+    }
+
+    # Generar el PDF a partir del template 'home/lista.html' con los datos
+    pdf = render_to_pdf('consejeros/reporte_matricula.html', data)
+    
+    # Devolver el PDF como respuesta HTTP
+    return HttpResponse(pdf, content_type='application/pdf')
