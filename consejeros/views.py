@@ -133,7 +133,7 @@ def actualizar_matricula(request, matricula_id):
     
 def generar_reporte_pdf(request):
     # Obtener todos los empleados
-    matriculas = Matricula.objects.filter(estado='Aceptado')  # Solo matrículas aceptadas
+    matriculas = Matricula.objects.filter(estado='A')  # Solo matrículas aceptadas
 
     # Preparar los datos para enviar al template
     data = {
