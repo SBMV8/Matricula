@@ -42,8 +42,8 @@
         <select name="estado" id="estado" onchange="this.form.submit()">
             <option value="">Todos</option>
             <option value="P" {% if estado_seleccionado == "P" %}selected{% endif %}>Pendiente</option>
-            <option value="Aceptado" {% if estado_seleccionado == "Aceptado" %}selected{% endif %}>Aceptada</option>
-            <option value="Rechazado" {% if estado_seleccionado == "Rechazado" %}selected{% endif %}>Rechazada</option>
+            <option value="A" {% if estado_seleccionado == "A" %}selected{% endif %}>Aceptada</option>
+            <option value="R" {% if estado_seleccionado == "R" %}selected{% endif %}>Rechazada</option>
         </select>
     </form>
 </div>
