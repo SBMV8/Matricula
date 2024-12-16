@@ -5,32 +5,7 @@
 
 {% block main_content %}
 <h1>Verificación de Pagos</h1>
-<style>
-    .btn-pdf {
-        position: fixed; /* Posición fija respecto a la ventana */
-        top: 100px; /* Espacio desde la parte superior */
-        right: 20px; /* Espacio desde la parte derecha */
-        padding: 10px 20px;
-        background-color: #f04e31; /* Rojo vibrante */
-        color: #fff;
-        font-size: 16px;
-        font-weight: bold;
-        text-decoration: none;
-        border-radius: 5px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    }
 
-    .btn-pdf:hover {
-        background-color: #c93d28; /* Rojo más oscuro para el hover */
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-pdf:active {
-        background-color: #a23020; /* Color más oscuro al hacer clic */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-</style>
 <!-- Filtro por estado -->
 <div class="filter-form">
     <form method="GET">
@@ -65,25 +40,19 @@
                 <td>{{ transaccion.numero_transaccion }}</td>
                 <td>{{ transaccion.estado }}</td>
                 <td>{{ transaccion.fecha_creacion }}</td>
-                <td>
-                    {% if transaccion.estado == "Pendiente" %}
-                        <form method="POST" style="display:inline;">
-                            {% csrf_token %}
-                            <input type="hidden" name="transaccion_id" value="{{ transaccion.id }}">
-                            <button type="submit" name="accion" value="aceptar" class="btn-aceptar">Aceptar</button>
-                        </form>
-                        <form method="POST" style="display:inline;">
-                            {% csrf_token %}
-                            <input type="hidden" name="transaccion_id" value="{{ transaccion.id }}">
-                            <button type="submit" name="accion" value="rechazar" class="btn-rechazar">Rechazar</button>
-                        </form>
-                    {% else %}
-                        Sin acciones
-                    {% endif %}
+                <td class="action-buttons">
+                    <form method="POST" action="{% url 'actualizar_pago' transaccion.id %}">
+                        {% csrf_token %}
+                        <button type="submit" name="accion" value="aceptar">Aceptar</button>
+                    </form>
+                    <form method="POST" action="{% url 'actualizar_pago' transaccion.id %}">
+                        {% csrf_token %}
+                        <button type="submit" name="accion" value="rechazar">Rechazar</button>
+                    </form>
                 </td>
             </tr>
             {% empty %}
-            <tr>
+            <tr class="empty-row">
                 <td colspan="6">No hay transacciones en este estado.</td>
             </tr>
             {% endfor %}
