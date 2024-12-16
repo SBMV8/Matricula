@@ -229,13 +229,14 @@ def actualizar_matricula(request, matricula_id):
 
         if accion == 'aceptar':
             matricula.estado = 'Aceptado'
+            messages.success(request, 'Matrícula aceptada.')
             for curso in matricula.semestre1.all():
                 curso.vacantes -= 1
                 curso.save()
             for curso in matricula.semestre2.all():
                 curso.vacantes -= 1
                 curso.save()
-            messages.success(request, 'Matrícula aceptada.')
+
         elif accion == 'rechazar':
             matricula.estado = 'Rechazado'
             messages.warning(request, 'Matrícula rechazada.')          
